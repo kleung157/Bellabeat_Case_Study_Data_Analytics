@@ -1,0 +1,544 @@
+---
+title: "Bellabeat Case Study - Process File"
+author: "Kevin Leung"
+date: "2025-01-27"
+output: html_document
+---
+
+## Setting up my environment
+
+Setting up my R environment by loading 'tidyverse', 'here', 'skimr' and 'janitor' packages
+
+```{r loading packages}
+install.packages("tidyverse")
+install.packages("here")
+install.packages("skimr")
+install.packages("janitor")
+library("tidyverse")
+library("here")
+library("skimr")
+library("janitor")
+```
+
+## Processing of Data
+
+Cleaning and transformation of the dataset.
+
+```{r reading dataset files}
+daily_activity_mar_apr <- read_csv("dailyactivity_3_to_4.csv")
+heart_rate_mar_apr <- read_csv("heartrate_seconds_3_to_4.csv")
+hourly_calories_mar_apr <- read_csv("hourlycalories_3_to_4.csv")
+hourly_intensities_mar_apr <- read_csv("hourlyintensities_3_to_4.csv")
+hourly_steps_mar_apr <- read_csv("hourlysteps_3_to_4.csv")
+minute_calories_mar_apr <- read_csv("minutecaloriesnarrow_3_to_4.csv")
+minute_intensities_mar_apr <-read_csv("minuteintensitiesnarrow_3_to_4.csv")
+minute_mets_mar_apr <- read_csv("minutemetsnarrow_3_to_4.csv")
+minute_sleep_mar_apr <- read_csv("minutesleep_3_to_4.csv")
+minute_steps_mar_apr <- read_csv("minutestepsnarrow_3_to_4.csv")
+weight_log_mar_apr <- read_csv("weightloginfo_3_to_4.csv")
+daily_activity_apr_may <- read_csv("dailyactivity_4_to_5.csv")
+daily_calories_apr_may <- read_csv("dailycalories_4_to_5.csv")
+daily_intensities_apr_may <- read_csv("dailyintensities_4_to_5.csv")
+daily_steps_apr_may <- read_csv("dailysteps_4_to_5.csv")
+heart_rate_apr_may <- read_csv("heartrate_seconds_4_to_5.csv")
+hourly_calories_apr_may <- read_csv("hourlycalories_4_to_5.csv")
+hourly_intensities_apr_may <- read_csv("hourlyintensities_4_to_5.csv")
+hourly_steps_apr_may <- read_csv("hourlysteps_4_to_5.csv")
+minute_calories_apr_may <- read_csv("minutecaloriesnarrow_4_to_5.csv")
+minute_calories_apr_may_2 <- read_csv("minutecalorieswide_4_to_5.csv")
+minute_intensities_apr_may <- read_csv("minuteintensitiesnarrow_4_to_5.csv")
+minute_intensities_apr_may_2 <- read_csv("minuteintensitieswide_4_to_5.csv")
+minute_mets_apr_may <- read_csv("minutemetsnarrow_4_to_5.csv")
+minute_sleep_apr_may <- read_csv("minutesleep_4_to_5.csv")
+minute_steps_apr_may <- read_csv("minutestepsnarrow_4_to_5.csv")
+minute_steps_apr_may_2 <- read_csv("minutestepswide_4_to_5.csv")
+sleep_day_apr_may <- read_csv("sleepday_4_to_5.csv")
+weight_log_apr_may <- read_csv("weightloginfo_4_to_5.csv")
+
+```
+
+```{r removing non distinct values}
+distinct(daily_activity_mar_apr)
+distinct(daily_activity_apr_may)
+distinct(daily_calories_apr_may)
+distinct(daily_intensities_apr_may)
+distinct(daily_steps_apr_may)
+distinct(heart_rate_mar_apr)
+distinct(heart_rate_apr_may)
+distinct(hourly_calories_mar_apr)
+distinct(hourly_calories_apr_may)
+distinct(hourly_intensities_mar_apr)
+distinct(hourly_intensities_apr_may)
+distinct(hourly_steps_mar_apr)
+distinct(hourly_steps_apr_may)
+distinct(minute_calories_mar_apr)
+distinct(minute_calories_apr_may)
+distinct(minute_calories_apr_may_2)
+distinct(minute_intensities_mar_apr)
+distinct(minute_intensities_apr_may)
+distinct(minute_intensities_apr_may_2)
+distinct(minute_mets_mar_apr)
+distinct(minute_mets_apr_may)
+distinct(minute_sleep_mar_apr)
+distinct(minute_sleep_apr_may)
+distinct(minute_steps_mar_apr)
+distinct(minute_steps_apr_may)
+distinct(minute_steps_apr_may_2)
+distinct(sleep_day_apr_may)
+distinct(weight_log_mar_apr)
+distinct(weight_log_apr_may)
+```
+
+```{r standardizing column names to snake case or lower case}
+daily_activity_mar_apr_cleaned <- clean_names(daily_activity_mar_apr)
+daily_activity_apr_may_cleaned <- clean_names(daily_activity_apr_may)
+daily_calories_apr_may_cleaned <- clean_names(daily_calories_apr_may)
+daily_intensities_apr_may_cleaned <- clean_names(daily_intensities_apr_may)
+daily_steps_apr_may_cleaned <- clean_names(daily_steps_apr_may)
+heart_rate_mar_apr_cleaned <- clean_names(heart_rate_mar_apr)
+heart_rate_apr_may_cleaned <- clean_names(heart_rate_apr_may)
+hourly_calories_mar_apr_cleaned <- clean_names(hourly_calories_mar_apr)
+hourly_calories_apr_may_cleaned <- clean_names(hourly_calories_apr_may)
+hourly_intensities_mar_apr_cleaned <- clean_names(hourly_intensities_mar_apr)
+hourly_intensities_apr_may_cleaned <- clean_names(hourly_intensities_apr_may)
+hourly_steps_mar_apr_cleaned <- clean_names(hourly_steps_mar_apr)
+hourly_steps_apr_may_cleaned <- clean_names(hourly_steps_apr_may)
+minute_calories_mar_apr_cleaned <- clean_names(minute_calories_mar_apr)
+minute_calories_apr_may_cleaned <- clean_names(minute_calories_apr_may)
+minute_calories_apr_may_2_cleaned <- clean_names(minute_calories_apr_may_2)
+minute_intensities_mar_apr_cleaned <- clean_names(minute_intensities_mar_apr)
+minute_intensities_apr_may_cleaned <- clean_names(minute_intensities_apr_may)
+minute_intensities_apr_may_2_cleaned <- clean_names(minute_intensities_apr_may_2)
+minute_mets_mar_apr_cleaned <- clean_names(minute_mets_mar_apr)
+minute_mets_apr_may_cleaned <- clean_names(minute_mets_apr_may)
+minute_sleep_mar_apr_cleaned <- clean_names(minute_sleep_mar_apr)
+minute_sleep_apr_may_cleaned <- clean_names(minute_sleep_apr_may)
+minute_steps_mar_apr_cleaned <- clean_names(minute_steps_mar_apr)
+minute_steps_apr_may_cleaned <- clean_names(minute_steps_apr_may)
+minute_steps_apr_may_2_cleaned <- clean_names(minute_steps_apr_may_2)
+sleep_day_apr_may_cleaned <- clean_names(sleep_day_apr_may)
+weight_log_mar_apr_cleaned <- clean_names(weight_log_mar_apr)
+weight_log_apr_may_cleaned <- clean_names(weight_log_apr_may)
+```
+
+```{r reviewing column changes and relationships}
+colnames(daily_activity_mar_apr_cleaned)
+colnames(daily_activity_apr_may_cleaned)
+colnames(daily_calories_apr_may_cleaned)
+colnames(daily_intensities_apr_may_cleaned)
+colnames(daily_steps_apr_may_cleaned)
+colnames(heart_rate_mar_apr_cleaned)
+colnames(heart_rate_apr_may_cleaned)
+colnames(hourly_calories_mar_apr_cleaned)
+colnames(hourly_calories_apr_may_cleaned)
+colnames(hourly_intensities_mar_apr_cleaned)
+colnames(hourly_intensities_apr_may_cleaned)
+colnames(hourly_steps_mar_apr_cleaned)
+colnames(hourly_steps_apr_may_cleaned)
+colnames(minute_calories_mar_apr_cleaned)
+colnames(minute_calories_apr_may_cleaned)
+colnames(minute_calories_apr_may_2_cleaned)
+colnames(minute_intensities_mar_apr_cleaned)
+colnames(minute_intensities_apr_may_cleaned)
+colnames(minute_intensities_apr_may_2_cleaned)
+colnames(minute_mets_mar_apr_cleaned)
+colnames(minute_mets_apr_may_cleaned)
+colnames(minute_sleep_mar_apr_cleaned)
+colnames(minute_sleep_apr_may_cleaned)
+colnames(minute_steps_mar_apr_cleaned)
+colnames(minute_steps_apr_may_cleaned)
+colnames(minute_steps_apr_may_2_cleaned)
+colnames(sleep_day_apr_may_cleaned)
+colnames(weight_log_mar_apr_cleaned)
+colnames(weight_log_apr_may_cleaned)
+```
+
+```{r standardizing datetime to ymd and military time}
+daily_activity_mar_apr_cleaned$activity_date <- as.Date(daily_activity_mar_apr_cleaned$activity_date,
+                                                        format = "%m/%d/%Y")
+daily_activity_mar_apr_cleaned$activity_date <- strftime(daily_activity_mar_apr_cleaned$activity_date,
+                                                         format = "%Y-%m-%d")
+daily_activity_apr_may_cleaned$activity_date <- as.Date(daily_activity_apr_may_cleaned$activity_date,
+                                                        format = "%m/%d/%Y")
+daily_activity_apr_may_cleaned$activity_date <- strftime(daily_activity_apr_may_cleaned$activity_date,
+                                                         format = "%Y-%m-%d")
+daily_calories_apr_may_cleaned$activity_day <- as.Date(daily_calories_apr_may_cleaned$activity_day,
+                                                       format = "%m/%d/%Y")
+daily_calories_apr_may_cleaned$activity_day <- strftime(daily_calories_apr_may_cleaned$activity_day,
+                                                        format = "%Y-%m-%d")
+daily_intensities_apr_may_cleaned$activity_day <- as.Date(daily_intensities_apr_may_cleaned$activity_day,
+                                                          format = "%m/%d/%Y")
+daily_intensities_apr_may_cleaned$activity_day<- strftime(daily_intensities_apr_may_cleaned$activity_day,
+                                                          format = "%Y-%m-%d")
+daily_steps_apr_may_cleaned$activity_day <- as.Date(daily_steps_apr_may_cleaned$activity_day,
+                                                    format = "%m/%d/%Y")
+daily_steps_apr_may_cleaned$activity_day <- strftime(daily_steps_apr_may_cleaned$activity_day,
+                                                     format = "%Y-%m-%d")
+heart_rate_mar_apr_cleaned$time <- strptime(heart_rate_mar_apr_cleaned$time,
+                                            format = "%m/%d/%Y %I:%M:%S %p")
+heart_rate_mar_apr_cleaned$time <- strftime(heart_rate_mar_apr_cleaned$time,
+                                            format = "%Y-%m-%d %H:%M:%S")
+heart_rate_apr_may_cleaned$time <- strptime(heart_rate_apr_may_cleaned$time,
+                                            format = "%m/%d/%Y %I:%M:%S %p")
+heart_rate_apr_may_cleaned$time <- strftime(heart_rate_apr_may_cleaned$time,
+                                            format = "%Y-%m-%d %H:%M:%S")
+hourly_calories_mar_apr_cleaned$activity_hour <- strptime(hourly_calories_mar_apr_cleaned$activity_hour,
+                                                          format = "%m/%d/%Y %I:%M:%S %p")
+hourly_calories_mar_apr_cleaned$activity_hour <- strftime(hourly_calories_mar_apr_cleaned$activity_hour,
+                                                          format = "%Y-%m-%d %H:%M:%S")
+hourly_calories_apr_may_cleaned$activity_hour <- strptime(hourly_calories_apr_may_cleaned$activity_hour,
+                                                          format = "%m/%d/%Y %I:%M:%S %p")
+hourly_calories_apr_may_cleaned$activity_hour <- strftime(hourly_calories_apr_may_cleaned$activity_hour,
+                                                          format = "%Y-%m-%d %H:%M:%S")
+hourly_intensities_mar_apr_cleaned$activity_hour <- strptime(hourly_intensities_mar_apr_cleaned$activity_hour,
+                                                             format = "%m/%d/%Y %I:%M:%S %p")
+hourly_intensities_mar_apr_cleaned$activity_hour <- strftime(hourly_intensities_mar_apr_cleaned$activity_hour,
+                                                             format = "%Y-%m-%d %H:%M:%S")
+hourly_intensities_apr_may_cleaned$activity_hour <- strptime(hourly_intensities_apr_may_cleaned$activity_hour,
+                                                             format = "%m/%d/%Y %I:%M:%S %p")
+hourly_intensities_apr_may_cleaned$activity_hour <- strftime(hourly_intensities_apr_may_cleaned$activity_hour,
+                                                             format = "%Y-%m-%d %H:%M:%S")
+hourly_steps_mar_apr_cleaned$activity_hour <- strptime(hourly_steps_mar_apr_cleaned$activity_hour,
+                                                       format = "%m/%d/%Y %I:%M:%S %p")
+hourly_steps_mar_apr_cleaned$activity_hour <- strftime(hourly_steps_mar_apr_cleaned$activity_hour,
+                                                       format = "%Y-%m-%d %H:%M:%S")
+hourly_steps_apr_may_cleaned$activity_hour <- strptime(hourly_steps_apr_may_cleaned$activity_hour,
+                                                       format = "%m/%d/%Y %I:%M:%S %p")
+hourly_steps_apr_may_cleaned$activity_hour <- strftime(hourly_steps_apr_may_cleaned$activity_hour,
+                                                       format = "%Y-%m-%d %H:%M:%S")
+minute_calories_mar_apr_cleaned$activity_minute <- strptime(minute_calories_mar_apr_cleaned$activity_minute,
+                                                            format = "%m/%d/%Y %I:%M:%S %p")
+minute_calories_mar_apr_cleaned$activity_minute <- strftime(minute_calories_mar_apr_cleaned$activity_minute,
+                                                            format = "%Y-%m-%d %H:%M:%S")
+minute_calories_apr_may_cleaned$activity_minute <- strptime(minute_calories_apr_may_cleaned$activity_minute,
+                                                            format = "%m/%d/%Y %I:%M:%S %p")
+minute_calories_apr_may_cleaned$activity_minute <- strftime(minute_calories_apr_may_cleaned$activity_minute,
+                                                            format = "%Y-%m-%d %H:%M:%S")
+minute_calories_apr_may_2_cleaned$activity_hour <- strptime(minute_calories_apr_may_2_cleaned$activity_hour,
+                                                            format = "%m/%d/%Y %I:%M:%S %p")
+minute_calories_apr_may_2_cleaned$activity_hour <- strftime(minute_calories_apr_may_2_cleaned$activity_hour,
+                                                            format = "%Y-%m-%d %H:%M:%S")
+minute_intensities_mar_apr_cleaned$activity_minute <- strptime(minute_intensities_mar_apr_cleaned$activity_minute,
+                                                               format = "%m/%d/%Y %I:%M:%S %p")
+minute_intensities_mar_apr_cleaned$activity_minute <- strftime(minute_intensities_mar_apr_cleaned$activity_minute,
+                                                               format = "%Y-%m-%d %H:%M:%S")
+minute_intensities_apr_may_cleaned$activity_minute <- strptime(minute_intensities_apr_may_cleaned$activity_minute,
+                                                               format = "%m/%d/%Y %I:%M:%S %p")
+minute_intensities_apr_may_cleaned$activity_minute <- strftime(minute_intensities_apr_may_cleaned$activity_minute,
+                                                               format = "%Y-%m-%d %H:%M:%S")
+minute_intensities_apr_may_2_cleaned$activity_hour <- strptime(minute_intensities_apr_may_2_cleaned$activity_hour,
+                                                               format = "%m/%d/%Y %I:%M:%S %p")
+minute_intensities_apr_may_2_cleaned$activity_hour <- strftime(minute_intensities_apr_may_2_cleaned$activity_hour,
+                                                               format = "%Y-%m-%d %H:%M:%S")
+minute_mets_mar_apr_cleaned$activity_minute <- strptime(minute_mets_mar_apr_cleaned$activity_minute,
+                                                        format = "%m/%d/%Y %I:%M:%S %p")
+minute_mets_mar_apr_cleaned$activity_minute <- strftime(minute_mets_mar_apr_cleaned$activity_minute,
+                                                        format = "%Y-%m-%d %H:%M:%S")
+minute_mets_apr_may_cleaned$activity_minute <- strptime(minute_mets_apr_may_cleaned$activity_minute,
+                                                        format = "%m/%d/%Y %I:%M:%S %p")
+minute_mets_apr_may_cleaned$activity_minute <- strftime(minute_mets_apr_may_cleaned$activity_minute,
+                                                        format = "%Y-%m-%d %H:%M:%S")
+minute_sleep_mar_apr_cleaned$date <- strptime(minute_sleep_mar_apr_cleaned$date,
+                                              format = "%m/%d/%Y %I:%M:%S %p")
+minute_sleep_mar_apr_cleaned$date <- strftime(minute_sleep_mar_apr_cleaned$date,
+                                              format = "%Y-%m-%d %H:%M:%S")
+minute_sleep_apr_may_cleaned$date <- strptime(minute_sleep_apr_may_cleaned$date,
+                                              format = "%m/%d/%Y %I:%M:%S %p")
+minute_sleep_apr_may_cleaned$date <- strftime(minute_sleep_apr_may_cleaned$date,
+                                              format = "%Y-%m-%d %H:%M:%S")
+minute_steps_mar_apr_cleaned$activity_minute <- strptime(minute_steps_mar_apr_cleaned$activity_minute,
+                                                         format = "%m/%d/%Y %I:%M:%S %p")
+minute_steps_mar_apr_cleaned$activity_minute <- strftime(minute_steps_mar_apr_cleaned$activity_minute,
+                                                         format = "%Y-%m-%d %H:%M:%S")
+minute_steps_apr_may_cleaned$activity_minute <- strptime(minute_steps_apr_may_cleaned$activity_minute,
+                                                         format = "%m/%d/%Y %I:%M:%S %p")
+minute_steps_apr_may_cleaned$activity_minute <- strftime(minute_steps_apr_may_cleaned$activity_minute,
+                                                         format = "%Y-%m-%d %H:%M:%S")
+minute_steps_apr_may_2_cleaned$activity_hour <- strptime(minute_steps_apr_may_2_cleaned$activity_hour,
+                                                         format = "%m/%d/%Y %I:%M:%S %p")
+minute_steps_apr_may_2_cleaned$activity_hour <- strftime(minute_steps_apr_may_2_cleaned$activity_hour,
+                                                         format = "%Y-%m-%d %H:%M:%S")
+sleep_day_apr_may_cleaned$sleep_day <- strptime(sleep_day_apr_may_cleaned$sleep_day,
+                                                format = "%m/%d/%Y %I:%M:%S %p")
+sleep_day_apr_may_cleaned$sleep_day <- strftime(sleep_day_apr_may_cleaned$sleep_day,
+                                                format = "%Y-%m-%d %H:%M:%S")
+weight_log_mar_apr_cleaned$date <- strptime(weight_log_mar_apr_cleaned$date,
+                                            format = "%m/%d/%Y %I:%M:%S %p")
+weight_log_mar_apr_cleaned$date <- strftime(weight_log_mar_apr_cleaned$date,
+                                            format = "%Y-%m-%d %H:%M:%S")
+weight_log_apr_may_cleaned$date <- strptime(weight_log_apr_may_cleaned$date,
+                                            format = "%m/%d/%Y %I:%M:%S %p")
+weight_log_apr_may_cleaned$date <- strftime(weight_log_apr_may_cleaned$date,
+                                            format = "%Y-%m-%d %H:%M:%S")
+```
+
+```{r splitting datetime columns into activity_date and activity_time}
+heart_rate_mar_apr_cleaned <- separate(heart_rate_mar_apr_cleaned,
+                                       col = "time",
+                                       into = c("activity_date",
+                                                "activity_time"),
+                                       sep = " ")
+heart_rate_apr_may_cleaned <- separate(heart_rate_apr_may_cleaned,
+                                       col = "time",
+                                       into = c("activity_date",
+                                                "activity_time"),
+                                       sep = " ")
+hourly_calories_mar_apr_cleaned <- separate(hourly_calories_mar_apr_cleaned,
+                                            col = "activity_hour",
+                                            into = c("activity_date",
+                                                     "activity_time"),
+                                            sep = " ")
+hourly_calories_apr_may_cleaned <- separate(hourly_calories_apr_may_cleaned,
+                                            col = "activity_hour",
+                                            into = c("activity_date",
+                                                     "activity_time"),
+                                            sep = " ")
+hourly_intensities_mar_apr_cleaned <- separate(hourly_intensities_mar_apr_cleaned,
+                                               col = "activity_hour",
+                                               into = c("activity_date",
+                                                        "activity_time"),
+                                               sep = " ")
+hourly_intensities_apr_may_cleaned <- separate(hourly_intensities_apr_may_cleaned,
+                                               col = "activity_hour",
+                                               into = c("activity_date",
+                                                        "activity_time"),
+                                               sep = " ")
+hourly_steps_mar_apr_cleaned <- separate(hourly_steps_mar_apr_cleaned,
+                                         col = "activity_hour",
+                                         into = c("activity_date",
+                                                  "activity_time"),
+                                         sep = " ")
+hourly_steps_apr_may_cleaned <- separate(hourly_steps_apr_may_cleaned,
+                                         col = "activity_hour",
+                                         into = c("activity_date",
+                                                  "activity_time"),
+                                         sep = " ")
+minute_calories_mar_apr_cleaned <- separate(minute_calories_mar_apr_cleaned,
+                                            col = "activity_minute",
+                                            into = c("activity_date",
+                                                     "activity_time"),
+                                            sep = " ")
+minute_calories_apr_may_cleaned <- separate(minute_calories_apr_may_cleaned,
+                                            col = "activity_minute",
+                                            into = c("activity_date",
+                                                     "activity_time"),
+                                            sep = " ")
+minute_calories_apr_may_2_cleaned <- separate(minute_calories_apr_may_2_cleaned,
+                                              col = "activity_hour",
+                                              into = c("activity_date",
+                                                       "activity_time"),
+                                              sep = " ")
+minute_intensities_mar_apr_cleaned <- separate(minute_intensities_mar_apr_cleaned,
+                                               col = "activity_minute",
+                                               into = c("activity_date",
+                                                        "activity_time"),
+                                               sep = " ")
+minute_intensities_apr_may_cleaned <- separate(minute_intensities_apr_may_cleaned,
+                                               col = "activity_minute",
+                                               into = c("activity_date",
+                                                        "activity_time"),
+                                               sep = " ")
+minute_intensities_apr_may_2_cleaned <- separate(minute_intensities_apr_may_2_cleaned,
+                                                 col = "activity_hour", 
+                                                 into = c("activity_date", 
+                                                          "activity_time"),
+                                                 sep = " ")
+minute_mets_mar_apr_cleaned <- separate(minute_mets_mar_apr_cleaned, 
+                                        col = "activity_minute",
+                                        into = c("activity_date",
+                                                 "activity_time"),
+                                        sep = " ")
+minute_mets_apr_may_cleaned <- separate(minute_mets_apr_may_cleaned,
+                                        col = "activity_minute",
+                                        into = c("activity_date",
+                                                 "activity_time"),
+                                        sep = " ")
+minute_sleep_mar_apr_cleaned <- separate(minute_sleep_mar_apr_cleaned,
+                                         col = "date",
+                                         into = c("activity_date",
+                                                  "activity_time"),
+                                         sep = " ")
+minute_sleep_apr_may_cleaned <- separate(minute_sleep_apr_may_cleaned,
+                                         col = "date",
+                                         into = c("activity_date",
+                                                  "activity_time"),
+                                         sep = " ")
+minute_steps_mar_apr_cleaned <- separate(minute_steps_mar_apr_cleaned,
+                                         col = "activity_minute",
+                                         into = c("activity_date",
+                                                  "activity_time"),
+                                         sep = " ")
+minute_steps_apr_may_cleaned <- separate(minute_steps_apr_may_cleaned,
+                                         col = "activity_minute",
+                                         into = c("activity_date",
+                                                  "activity_time"),
+                                         sep = " ")
+minute_steps_apr_may_2_cleaned <- separate(minute_steps_apr_may_2_cleaned,
+                                           col = "activity_hour",
+                                           into = c("activity_date",
+                                                    "activity_time"),
+                                           sep = " ")
+sleep_day_apr_may_cleaned <- separate(sleep_day_apr_may_cleaned,
+                                      col = "sleep_day",
+                                      into = c("activity_date",
+                                               "activity_time"),
+                                      sep = " ")
+weight_log_mar_apr_cleaned <- separate(weight_log_mar_apr_cleaned,
+                                       col = "date",
+                                       into = c("activity_date",
+                                                "activity_time"),
+                                       sep = " ")
+weight_log_apr_may_cleaned <- separate(weight_log_apr_may_cleaned,
+                                       col = "date", 
+                                       into = c("activity_date",
+                                                              "activity_time"),
+                                       sep = " ")
+```
+
+```{r renaming column names for uniformity}
+colnames(daily_calories_apr_may_cleaned)[2] <- "activity_date"
+colnames(daily_intensities_apr_may_cleaned)[2] <- "activity_date"
+colnames(daily_steps_apr_may_cleaned)[2] <- "activity_date"
+colnames(daily_steps_apr_may_cleaned)[3] <- "total_steps"
+colnames(heart_rate_mar_apr_cleaned)[4] <- "heart_rate"
+colnames(heart_rate_apr_may_cleaned)[4] <- "heart_rate"
+colnames(hourly_steps_mar_apr_cleaned)[4] <- "total_steps"
+colnames(hourly_steps_apr_may_cleaned)[4] <- "total_steps"
+colnames(minute_intensities_mar_apr_cleaned)[4] <- "total_intensity"
+colnames(minute_intensities_apr_may_cleaned)[4] <- "total_intensity"
+colnames(minute_mets_mar_apr_cleaned)[4] <- "mets"
+colnames(minute_mets_apr_may_cleaned)[4] <- "mets"
+colnames(minute_sleep_mar_apr_cleaned)[4] <- "sleep_m"
+colnames(minute_sleep_apr_may_cleaned)[4] <- "sleep_m"
+colnames(minute_steps_mar_apr_cleaned)[4] <- "total_steps"
+colnames(minute_steps_apr_may_cleaned)[4] <- "total_steps"
+```
+
+```{r double checking for n_missing values}
+daily_activity_mar_apr_cleaned %>% skim_without_charts()
+daily_activity_apr_may_cleaned %>% skim_without_charts()
+daily_calories_apr_may_cleaned %>% skim_without_charts()
+daily_intensities_apr_may_cleaned %>% skim_without_charts()
+daily_steps_apr_may_cleaned %>% skim_without_charts()
+heart_rate_mar_apr_cleaned %>% skim_without_charts()
+heart_rate_apr_may_cleaned %>% skim_without_charts()
+hourly_calories_mar_apr_cleaned %>% skim_without_charts()
+hourly_calories_apr_may_cleaned %>% skim_without_charts()
+hourly_intensities_mar_apr_cleaned %>% skim_without_charts()
+hourly_intensities_apr_may_cleaned %>% skim_without_charts()
+hourly_steps_mar_apr_cleaned %>% skim_without_charts()
+hourly_steps_apr_may_cleaned %>% skim_without_charts()
+minute_calories_mar_apr_cleaned %>% skim_without_charts()
+minute_calories_apr_may_cleaned %>% skim_without_charts()
+minute_calories_apr_may_2_cleaned %>% skim_without_charts()
+minute_intensities_mar_apr_cleaned %>% skim_without_charts()
+minute_intensities_apr_may_cleaned %>% skim_without_charts()
+minute_intensities_apr_may_2_cleaned %>% skim_without_charts()
+minute_mets_mar_apr_cleaned %>% skim_without_charts()
+minute_mets_apr_may_cleaned %>% skim_without_charts()
+minute_sleep_mar_apr_cleaned %>% skim_without_charts()
+minute_sleep_apr_may_cleaned %>% skim_without_charts()
+minute_steps_mar_apr_cleaned %>% skim_without_charts()
+minute_steps_apr_may_cleaned %>% skim_without_charts()
+minute_steps_apr_may_2_cleaned %>% skim_without_charts()
+sleep_day_apr_may_cleaned %>% skim_without_charts()
+weight_log_mar_apr_cleaned %>% skim_without_charts()
+weight_log_apr_may_cleaned %>% skim_without_charts()
+```
+
+```{r remove "fat" columns}
+weight_log_mar_apr_cleaned <- weight_log_mar_apr_cleaned %>% 
+  select(-fat)
+weight_log_apr_may_cleaned <- weight_log_apr_may_cleaned %>%
+  select(-fat)
+```
+
+```{r save clean and transformation to new files for analyzing}
+write.csv(daily_activity_mar_apr_cleaned,
+          file = "daily_activity_mar_apr_cleaned.csv",
+          row.names = FALSE)
+write.csv(daily_activity_apr_may_cleaned,
+          file = "daily_activity_apr_may_cleaned.csv",
+          row.names = FALSE)
+write.csv(daily_calories_apr_may_cleaned,
+          file = "daily_calories_apr_may_cleaned.csv",
+          row.names = FALSE)
+write.csv(daily_intensities_apr_may_cleaned,
+          file = "daily_intensities_apr_may_cleaned.csv",
+          row.names = FALSE)
+write.csv(daily_steps_apr_may_cleaned,
+          file = "daily_steps_apr_may_cleaned.csv",
+          row.names = FALSE)
+write.csv(heart_rate_mar_apr_cleaned,
+          file = "heart_rate_mar_apr_cleaned.csv",
+          row.names = FALSE)
+write.csv(heart_rate_apr_may_cleaned,
+          file = "heart_rate_apr_may_cleaned.csv",
+          row.names = FALSE)
+write.csv(hourly_calories_mar_apr_cleaned,
+          file = "hourly_calories_mar_apr_cleaned.csv",
+          row.names = FALSE)
+write.csv(hourly_calories_apr_may_cleaned,
+          file = "hourly_calories_apr_may_cleaned.csv",
+          row.names = FALSE)
+write.csv(hourly_intensities_mar_apr_cleaned,
+          file = "hourly_intensities_mar_apr_cleaned.csv",
+          row.names = FALSE)
+write.csv(hourly_intensities_apr_may_cleaned,
+          file = "hourly_intensities_apr_may_cleaned.csv",
+          row.names = FALSE)
+write.csv(hourly_steps_mar_apr_cleaned,
+          file = "hourly_steps_mar_apr_cleaned.csv",
+          row.names = FALSE)
+write.csv(hourly_steps_apr_may_cleaned,
+          file = "hourly_steps_apr_may_cleaned.csv",
+          row.names = FALSE)
+write.csv(minute_calories_mar_apr_cleaned,
+          file = "minute_calories_mar_apr_cleaned.csv",
+          row.names = FALSE)
+write.csv(minute_calories_apr_may_cleaned,
+          file = "minute_calories_apr_may_cleaned.csv",
+          row.names = FALSE)
+write.csv(minute_calories_apr_may_2_cleaned,
+          file = "minute_calories_apr_may_2_cleaned.csv",
+          row.names = FALSE)
+write.csv(minute_intensities_mar_apr_cleaned,
+          file = "minute_intensities_mar_apr_cleaned.csv",
+          row.names = FALSE)
+write.csv(minute_intensities_apr_may_cleaned,
+          file = "minute_intensities_apr_may_cleaned.csv",
+          row.names = FALSE)
+write.csv(minute_intensities_apr_may_2_cleaned,
+          file = "minute_intensities_apr_may_2_cleaned.csv",
+          row.names = FALSE)
+write.csv(minute_mets_mar_apr_cleaned,
+          file = "minute_mets_mar_apr_cleaned.csv",
+          row.names = FALSE)
+write.csv(minute_mets_apr_may_cleaned,
+          file = "minute_mets_apr_may_cleaned.csv",
+          row.names = FALSE)
+write.csv(minute_sleep_mar_apr_cleaned,
+          file = "minute_sleep_mar_apr_cleaned.csv",
+          row.names = FALSE)
+write.csv(minute_sleep_apr_may_cleaned,
+          file = "minute_sleep_apr_may_cleaned.csv",
+          row.names = FALSE)
+write.csv(minute_steps_mar_apr_cleaned,
+          file = "minute_steps_mar_apr_cleaned.csv",
+          row.names = FALSE)
+write.csv(minute_steps_apr_may_cleaned,
+          file = "minute_steps_apr_may_cleaned.csv",
+          row.names = FALSE)
+write.csv(minute_steps_apr_may_2_cleaned,
+          file = "minute_steps_apr_may_2_cleaned.csv",
+          row.names = FALSE)
+write.csv(sleep_day_apr_may_cleaned,
+          file = "sleep_day_apr_may_cleaned.csv",
+          row.names = FALSE)
+write.csv(weight_log_mar_apr_cleaned,
+          file = "weight_log_mar_apr_cleaned.csv",
+          row.names = FALSE)
+write.csv(weight_log_apr_may_cleaned,
+          file = "weight_log_apr_may_cleaned.csv",
+          row.names = FALSE)
+```
