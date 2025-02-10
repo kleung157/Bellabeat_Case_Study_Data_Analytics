@@ -1,7 +1,7 @@
 # Bellabeat Case Study: 
 ## How Can A Wellness Technology Company Play it Smart?
 
-
+![bellabeat logo](./bellabeat_logo.png)
 
 ##### Author: Kevin Leung
 ##### Date: 2025-01-27
