@@ -11,7 +11,3 @@ Founded in 2013 by artist Urška Sršen and mathematician Sando Mur, Bellabeat i
 
 #### Business task:
 Discover opportunities for growth in current and future markets by using non-Bellabeat smart device usage data to identify trends compatible with Bellabeat products and deliver insights that can drive strategical innovation for Bellabeat to have a greater global presence.
-
-#### Key stakeholders:
-Urška Sršen – cofounder, artist, and Chief Creative Officer
-Sando Mur – cofounder, mathematician, and executive team member
