@@ -1,0 +1,296 @@
+---
+title: "Bellabeat Case Study - Analyze File"
+author: "Kevin Leung"
+date: "2025-01-27"
+output: html_document
+---
+
+## Setting up my environment
+
+Setting up my R environment by loading 'tidyverse', 'here', 'skimr' and 'janitor' packages
+
+```{r loading packages}
+install.packages("tidyverse")
+install.packages("here")
+install.packages("skimr")
+install.packages("janitor")
+library("tidyverse")
+library("here")
+library("skimr")
+library("janitor")
+```
+
+## Analysis of Data
+
+Analysis of cleaned dataset for trends and relationships
+
+```{r reading cleaned dataset files}
+daily_activity_mar_apr <- read.csv("daily_activity_mar_apr_cleaned.csv")
+daily_activity_apr_may <- read.csv("daily_activity_apr_may_cleaned.csv")
+daily_calories_apr_may <- read.csv("daily_calories_apr_may_cleaned.csv")
+daily_intensities_apr_may <- read.csv("daily_intensities_apr_may_cleaned.csv")
+daily_steps_apr_may <- read.csv("daily_steps_apr_may_cleaned.csv")
+heart_rate_mar_apr <- read.csv("heart_rate_mar_apr_cleaned.csv")
+heart_rate_apr_may <- read.csv("heart_rate_apr_may_cleaned.csv")
+hourly_calories_mar_apr <- read.csv("hourly_calories_apr_may_cleaned.csv")
+hourly_calories_apr_may <- read.csv("hourly_calories_apr_may_cleaned.csv")
+hourly_intensities_mar_apr <- read.csv("hourly_intensities_mar_apr_cleaned.csv")
+hourly_intensities_apr_may <- read.csv("hourly_intensities_apr_may_cleaned.csv")
+hourly_steps_mar_apr <- read.csv("hourly_steps_mar_apr_cleaned.csv")
+hourly_steps_apr_may <- read.csv("hourly_steps_apr_may_cleaned.csv")
+minute_calories_mar_apr <- read.csv("minute_calories_mar_apr_cleaned.csv")
+minute_calories_apr_may <- read.csv("minute_calories_apr_may_cleaned.csv")
+minute_intensities_mar_apr <- read.csv("minute_intensities_mar_apr_cleaned.csv")
+minute_intensities_apr_may <- read.csv("minute_intensities_apr_may_cleaned.csv")
+minute_mets_mar_apr <- read.csv("minute_mets_mar_apr_cleaned.csv")
+minute_mets_apr_may <- read.csv("minute_mets_apr_may_cleaned.csv")
+minute_sleep_mar_apr <- read.csv("minute_sleep_mar_apr_cleaned.csv")
+minute_sleep_apr_may <- read.csv("minute_sleep_apr_may_cleaned.csv")
+minute_steps_mar_apr <- read.csv("minute_steps_mar_apr_cleaned.csv")
+minute_steps_apr_may <- read.csv("minute_steps_apr_may_cleaned.csv")
+sleep_day_apr_may <- read.csv("sleep_day_apr_may_cleaned.csv")
+weight_log_mar_apr <- read.csv("weight_log_mar_apr_cleaned.csv")
+weight_log_apr_may <- read.csv("weight_log_apr_may_cleaned.csv")
+```
+
+```{r binding datasets} 
+daily_activity <- rbind(daily_activity_mar_apr, daily_activity_apr_may)
+heart_rate <- rbind(heart_rate_mar_apr, heart_rate_apr_may)
+hourly_calories <- rbind(hourly_calories_mar_apr, hourly_calories_apr_may)
+hourly_intensities <- rbind(hourly_intensities_mar_apr, hourly_intensities_apr_may)
+hourly_steps <- rbind(hourly_steps_mar_apr, hourly_steps_apr_may)
+minute_calories <- rbind(minute_calories_mar_apr, minute_calories_apr_may)
+minute_intensities <- rbind(minute_intensities_mar_apr, minute_intensities_apr_may)
+minute_mets <- rbind(minute_mets_mar_apr, minute_mets_apr_may)
+minute_sleep <- rbind(minute_sleep_mar_apr, minute_sleep_apr_may)
+minute_steps <- rbind(minute_steps_mar_apr, minute_steps_apr_may)
+weight_log <- rbind(weight_log_mar_apr, weight_log_apr_may)
+```
+
+```{r aggregation of overall data}
+daily_activity %>%
+  select(total_steps, total_distance, lightly_active_minutes, fairly_active_minutes, 
+         very_active_minutes, sedentary_minutes, calories) %>% 
+  summary()
+heart_rate %>% 
+  select(heart_rate, weekdays) %>% 
+  summary()
+sleep_day_apr_may %>% 
+  select(total_sleep_records, total_minutes_asleep, total_time_in_bed) %>% 
+  summary()
+weight_log %>% 
+  select(weight_kg, weight_pounds, bmi) %>% 
+  summary()
+daily_calories_apr_may %>% 
+  select(calories) %>% 
+  summary()
+colnames(daily_intensities_apr_may)[4] <- "total_intensity"
+daily_intensities_apr_may %>% 
+  select(total_intensity) %>% 
+  summary()  
+daily_steps_apr_may %>% 
+  select(total_steps) %>% 
+  summary()
+hourly_calories %>% 
+  select(calories) %>% 
+  summary()
+hourly_intensities %>% 
+  select(total_intensity) %>% 
+  summary()
+hourly_steps %>% 
+  select(total_steps) %>% 
+  summary()
+minute_calories %>% 
+  select(calories) %>% 
+  summary()
+colnames(minute_intensities)[4] <- "total_intensity"
+minute_intensities %>%
+  select(total_intensity) %>% 
+  summary()
+minute_mets %>% 
+  select(mets) %>%
+  summary()
+minute_sleep %>% 
+  select(sleep_m) %>% 
+  summary()
+minute_steps %>% 
+  select(total_steps) %>% 
+  summary()
+```
+
+```{r adding weekdays column with date to weekday conversion}
+daily_activity$weekdays <- format(as.Date(daily_activity$activity_date, format = "%Y-%m-%d"), format = "%A")
+heart_rate$weekdays <- format(as.Date(heart_rate$activity_date, format = "%Y-%m-%d"), format = "%A")
+weight_log$weekdays <- format(as.Date(weight_log$activity_date, format = "%Y-%m-%d"), format = "%A")
+hourly_calories$weekdays <- format(as.Date(hourly_calories$activity_date, format = "%Y-%m-%d"), format = "%A")
+hourly_intensities$weekdays <- format(as.Date(hourly_intensities$activity_date, format = "%Y-%m-%d"), format = "%A")
+hourly_steps$weekdays <- format(as.Date(hourly_steps$activity_date, format = "%Y-%m-%d"), format = "%A")
+minute_calories$weekdays <- format(as.Date(minute_calories$activity_date, format = "%Y-%m-%d"), format = "%A")
+minute_intensities$weekdays <- format(as.Date(minute_intensities$activity_date, format = "%Y-%m-%d"), format = "%A")
+minute_mets$weekdays <- format(as.Date(minute_mets$activity_date, format = "%Y-%m-%d"), format = "%A")
+minute_sleep$weekdays <- format(as.Date(minute_sleep$activity_date, format = "%Y-%m-%d"), format = "%A")
+minute_steps$weekdays <- format(as.Date(minute_steps$activity_date, format = "%Y-%m-%d"), format = "%A")
+daily_activity_apr_may$weekdays <- format(as.Date(daily_activity_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+daily_calories_apr_may$weekdays <- format(as.Date(daily_calories_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+daily_intensities_apr_may$weekdays <- format(as.Date(daily_intensities_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+daily_steps_apr_may$weekdays <- format(as.Date(daily_steps_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+heart_rate_apr_may$weekdays <- format(as.Date(heart_rate_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+hourly_calories_apr_may$weekdays <- format(as.Date(hourly_calories_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+hourly_intensities_apr_may$weekdays <- format(as.Date(hourly_intensities_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+hourly_steps_apr_may$weekdays <- format(as.Date(hourly_steps_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+minute_calories_apr_may$weekdays <- format(as.Date(minute_calories_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+minute_intensities_apr_may$weekdays <- format(as.Date(minute_intensities_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+minute_mets_apr_may$weekdays <- format(as.Date(minute_mets_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+minute_sleep_apr_may$weekdays <- format(as.Date(minute_sleep_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+minute_steps_apr_may$weekdays <- format(as.Date(minute_steps_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+sleep_day_apr_may$weekdays <- format(as.Date(sleep_day_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+weight_log_apr_may$weekdays <- format(as.Date(weight_log_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+```
+
+```{r create bar charts of total user input counts by weekday}
+ggplot(data = daily_activity) +
+  geom_bar(fill = "darkred", mapping = aes(x = factor(weekdays, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")))) +
+  labs(title = "Total Daily Activity Days Tracked During The Week", x = "Week Day", y = "Total Days")
+ggplot(data = heart_rate) +
+  geom_bar(fill = "darkred", mapping = aes(x = factor(weekdays, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")))) +
+  labs(title = "Total Heart Rate Days Tracked During The Week", x = "Week Day", y = "Total Days")
+ggplot(data = sleep_day_apr_may) +
+  geom_bar(fill = "darkred", mapping = aes(x = factor(weekdays, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")))) +
+  labs(title = "Total Sleep Days Tracked During The Week", x = "Week Day", y = "Total Days")
+ggplot(data = weight_log) +
+  geom_bar(fill = "darkred", mapping = aes(x = factor(weekdays, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")))) +
+  labs(title = "Total Weight Log Days Tracked During The Week", x = "Week Day", y = "Total Days")
+```
+
+```{r create bar charts of total user input sums by weekday}
+ggplot(data = daily_activity, aes(x = factor(weekdays, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")), y = total_steps)) +
+  geom_bar(stat = "identity", fill = "darkred") +
+  theme(plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Total Steps Daily During The Week", x = "Week Day", y = "Total Steps")
+ggplot(data = daily_activity, aes(x = factor(weekdays, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")), y = total_distance)) +
+  geom_bar(stat = "identity", fill = "darkred") +
+  theme(plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Total Distance Daily During The Week", x = "Week Day", y = "Total Distance")
+ggplot(data = daily_activity, aes(x = factor(weekdays, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")), y = sedentary_minutes)) +
+  geom_bar(stat = "identity", fill = "darkred") +
+  theme(plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Total Sedentary Minutes Daily During The Week", x = "Week Day", y = "Sedentary Minutes")
+ggplot(data = daily_activity, aes(x = factor(weekdays, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")), y = calories)) +
+  geom_bar(stat = "identity", fill = "darkred") +
+  theme(plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Total Calories Burned Daily During The Week", x = "Week Day", y = "Calories")
+ggplot(data = hourly_calories, aes(x = factor(weekdays, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")), y = calories)) +
+  geom_bar(stat = "identity", fill = "darkred") +
+  theme(plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Total Hourly Calories Burned Daily", x = "Week Day", y = "Calories Burned")
+ggplot(data = hourly_steps, aes(x = factor(weekdays, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")), y = total_steps)) +
+  geom_bar(stat = "identity", fill = "darkred") +
+  theme(plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Total Steps Hourly", x = "Week Day", y = "Total Steps")
+ggplot(data = hourly_intensities, aes(x = factor(weekdays, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")), y = total_intensity)) +
+  geom_bar(stat = "identity", fill = "darkred") +
+  theme(plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Total Intensity Hourly", x = "Week Day", y = "Total Intensity")
+```
+
+```{r create bar charts of total user input sums of hourly calories, hourly intensities, and hourly steps by the hour}
+ggplot(data = hourly_calories, aes(x = activity_time, y = calories, fill = activity_time)) +
+  geom_bar(stat = "identity") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Total Hourly Calories Burned By Hour", x = "Hour", y = "Calories Burned")
+ggplot(data = hourly_steps, aes(x = activity_time, y = total_steps, fill = activity_time)) +
+  geom_bar(stat = "identity") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Totals Hourly Steps By Hour", x = "Hour", y = "Total Steps")
+ggplot(data = hourly_intensities, aes(x = activity_time, y = total_intensity, fill = activity_time)) +
+  geom_bar(stat = "identity") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Totals Hourly Intensities By Hiyr", x = "Hour", y = "Total Intensity")
+
+```
+
+```{r merge datasets by id, actvity_date, and activity_time before regression analysis}
+daily_activity_sleep_merged <- merge(daily_activity, sleep_day_apr_may, by = c("id", "activity_date"))
+daily_activity_weight_merged <- merge(daily_activity, weight_log, by = c("id", "activity_date"))
+daily_cal_int_merged <- merge(daily_calories_apr_may, daily_intensities_apr_may, by = c("id", "activity_date"))
+daily_cal_int_ste_merged <- merge(daily_cal_int_merged, daily_steps_apr_may, by = c("id", "activity_date"))
+sleep_weight_merged <- merge(sleep_day_apr_may, weight_log, by = c("id", "activity_date"))
+hourly_calories_steps_merged <- merge(hourly_calories, hourly_steps, by = c("id", "activity_date", "activity_time"))
+hourly_calories_steps_intensities_merged <- merge(hourly_calories_steps_merged, hourly_intensities, by = c("id", "activity_date", "activity_time"))  
+minute_cal_int <- merge(minute_calories, minute_intensities, by = c("id", "activity_date", "activity_time"))
+minute_cal_int_met <- merge(minute_cal_int, minute_mets, by = c("id", "activity_date", "activity_time"))
+minute_cal_int_met_ste <- merge(minute_cal_int_met, minute_steps, by = c("id", "activity_date", "activity_time"))
+heart_rate_minute_merged <- merge(heart_rate, minute_cal_int_met_ste, by = c("id", "activity_date", "activity_time"))
+```
+
+```{r regression analysis, correlations between variables}
+cor(daily_activity$calories, daily_activity$very_active_minutes)
+cor(daily_activity$calories, daily_activity$sedentary_minutes)
+cor(daily_activity$calories, daily_activity$total_distance)
+cor(daily_activity$total_steps, daily_activity$calories)
+cor(daily_activity$total_steps, daily_activity$total_distance)
+cor(daily_activity$total_steps, daily_activity$very_active_minutes)
+cor(daily_activity$total_steps, daily_activity$sedentary_minutes)
+cor(daily_activity_sleep_merged$total_steps, daily_activity_sleep_merged$total_minutes_asleep)
+cor(daily_activity_sleep_merged$total_distance, daily_activity_sleep_merged$total_minutes_asleep)
+cor(daily_activity_sleep_merged$sedentary_minutes, daily_activity_sleep_merged$total_minutes_asleep)
+cor(daily_activity_sleep_merged$calories, daily_activity_sleep_merged$total_minutes_asleep)
+cor(daily_activity_sleep_merged$very_active_minutes, daily_activity_sleep_merged$total_minutes_asleep)
+cor(daily_activity_weight_merged$total_steps, daily_activity_weight_merged$weight_pounds)
+cor(daily_activity_weight_merged$total_distance, daily_activity_weight_merged$weight_pounds)
+cor(daily_activity_weight_merged$sedentary_minutes, daily_activity_weight_merged$weight_pounds)
+cor(daily_activity_weight_merged$calories, daily_activity_weight_merged$weight_pounds)
+cor(daily_activity_weight_merged$very_active_minutes, daily_activity_weight_merged$weight_pounds)
+cor(sleep_day_apr_may$total_time_in_bed, sleep_day_apr_may$total_minutes_asleep)
+cor(sleep_weight_merged$total_minutes_asleep, sleep_weight_merged$weight_pounds)
+cor(sleep_weight_merged$total_time_in_bed, sleep_weight_merged$weight_pounds)
+cor(sleep_weight_merged$total_minutes_asleep, sleep_weight_merged$weight_pounds)
+cor(daily_cal_int_ste_merged$total_steps, daily_cal_int_ste_merged$calories)
+cor(daily_cal_int_ste_merged$total_steps, daily_cal_int_ste_merged$sedentary_minutes)
+cor(daily_cal_int_ste_merged$total_steps, daily_cal_int_ste_merged$very_active_minutes)
+cor(daily_cal_int_ste_merged$calories, daily_cal_int_ste_merged$sedentary_minutes)
+cor(daily_cal_int_ste_merged$calories, daily_cal_int_ste_merged$very_active_minutes)
+cor(hourly_calories_steps_intensities_merged$total_steps, hourly_calories_steps_intensities_merged$calories)
+cor(hourly_calories_steps_intensities_merged$total_steps, hourly_calories_steps_intensities_merged$total_intensity)
+cor(hourly_calories_steps_intensities_merged$calories, hourly_calories_steps_intensities_merged$total_intensity)
+cor(minute_cal_int_met_ste$total_steps, minute_cal_int_met_ste$calories)
+cor(minute_cal_int_met_ste$total_steps, minute_cal_int_met_ste$intensity)
+cor(minute_cal_int_met_ste$total_steps, minute_cal_int_met_ste$mets)
+cor(minute_cal_int_met_ste$intensity, minute_cal_int_met_ste$calories)
+cor(minute_cal_int_met_ste$intensity, minute_cal_int_met_ste$mets)
+cor(minute_cal_int_met_ste$mets, minute_cal_int_met_ste$calories)
+cor(heart_rate_minute_merged$heart_rate, heart_rate_minute_merged$calories)
+cor(heart_rate_minute_merged$heart_rate, heart_rate_minute_merged$intensity)
+cor(heart_rate_minute_merged$heart_rate, heart_rate_minute_merged$mets)
+cor(heart_rate_minute_merged$heart_rate, heart_rate_minute_merged$total_steps)
+
+```
+
+```{r creating a pie chart of active and sedentary minutes from daily_activity}
+install.packages("plotrix")
+library("plotrix")
+
+sedentary_minutes <- sum(daily_activity$sedentary_minutes)
+lightly_active_minutes <- sum(daily_activity$lightly_active_minutes)
+fairly_active_minutes <- sum(daily_activity$fairly_active_minutes)
+very_active_minutes <- sum(daily_activity$very_active_minutes)
+
+daily_activity_minutes <- data.frame(
+  activity = c("sedentary", "lightly_active", "fairly_active", "very_active"),
+  activity_minutes = c(sedentary_minutes, lightly_active_minutes, fairly_active_minutes, very_active_minutes))
+
+daily_activity_minutes$percentage <- daily_activity_minutes$activity_minutes / sum(daily_activity_minutes$activity_minutes) * 100
+daily_activity_minutes$percentage <- round(daily_activity_minutes$percentage*1)
+
+pie3D(daily_activity_minutes$percentage,
+      labels = paste0(daily_activity_minutes$percentage,  "%"),
+      main = "Percentage of Active Minutes by Daily Activity",
+      col = c("skyblue", "lightgreen", "lightcoral", "lightyellow"),
+      border = "black",
+      labelcex = 0.9)
+legend("topright", daily_activity_minutes$activity, cex = 0.8,
+       fill = c("skyblue", "lightgreen", "lightcoral", "lightyellow"))
+```
