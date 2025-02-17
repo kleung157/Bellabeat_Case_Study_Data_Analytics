@@ -12,3 +12,14 @@ Founded in 2013 by artist Urška Sršen and mathematician Sando Mur, Bellabeat i
 #### Business Task:
 Discover opportunities for growth in current and future markets by using non-Bellabeat smart device usage data to identify trends compatible with Bellabeat products and deliver insights that can drive strategical innovation for Bellabeat to have a greater global presence.
 
+#### Dashboard:
+![bellabeat_dashboard](./bellabeat_dashboard.png)
+
+#### Recommendations:
+- Campaign with a health organization like the CDC for educating users on what daily metrics can contribute to a healthy, active lifestyle and encourage them to set goals on the Bellabeat app.
+
+- Smart device active metrics are passively tracked on a frequent basis. Non-active metrics like sleep and weight could have a notification on a user's device or an incentive on the Bellabeat app for users to manually input data more frequently.
+
+- Target middle of the week (Tuesday/Wednesday) and the hours between 12-2pm, 5-7pm for user notifications and incentives on the Bellabeat app.
+
+- Users should be able to see a more complete daily end of the day total that is a passive sum of hourly or minute metrics. Daily active metrics on the Bellabeat app need to be tracked more consistently on top of existing hourly and minute metrics to establish a better understanding of the relationship between daily active metrics and daily passive metrics such as sleep and weight.
