@@ -40,7 +40,9 @@ Founded in 2013 by artist Urška Sršen and mathematician Sando Mur, Bellabeat i
 
 The goal of this project is to find opportunities for growth in current and future markets by using smart device usage data to deliver insights that can drive strategical innovation for Bellabeat to have a greater global presence. Identifying trends in non-Bellabeat smart device usage will help Bellabeat customers and its marketing strategists. After identifying these trends, the project will study the relationship of non-Bellabeat user habits to a Bellabeat product’s tracking capabilities and then form recommendations that meet the needs of potential users. These recommendations include updates to the Bellabeat app and product design enhancements that would be most useful for driving consumer demand and retention. The final deliverables will include a clear summary of the business task, a description of all data sources used, documentation of any cleaning or manipulation of data, a summary of analysis, supporting visualizations and key findings, and recommendations based on analysis.
 
-**Business Task:** Discover opportunities for growth in current and future markets by using non-Bellabeat smart device usage data to identify trends compatible with Bellabeat products and deliver insights that can drive strategical innovation for Bellabeat to have a greater global presence.
+**Business Task:** 
+
+Discover opportunities for growth in current and future markets by using non-Bellabeat smart device usage data to identify trends compatible with Bellabeat products and deliver insights that can drive strategical innovation for Bellabeat to have a greater global presence.
 
 **Key Stakeholders:**
 
@@ -69,27 +71,49 @@ Bellabeat marketing analytics team – data analysts, marketers, and strategists
 
 (See document for details.)
 
-**Data Set:** FitBit Fitness Tracker Data – “Data set contains personal fitness tracker from thirty FitBit users.  Thirty eligible FitBit users consented to submission of personal tracker data. Minute-level output for physical activity, heart rate, and sleep monitoring. Information about daily activity, steps and heart rate can be used to explore user habits.”
+**Data Set:** 
 
-**Data Source**: <https://www.kaggle.com/datasets/arashnic/fitbit>
+FitBit Fitness Tracker Data – “Data set contains personal fitness tracker from thirty FitBit users.  Thirty eligible FitBit users consented to submission of personal tracker data. Minute-level output for physical activity, heart rate, and sleep monitoring. Information about daily activity, steps and heart rate can be used to explore user habits.”
 
-**Data Source Types**: Primary Data, External Data, Continuous Data, Quantitative Data, and Structured Data.
+**Data Source**: 
 
-**File Type:** 2 File Directories with 29 .csv files in majority long format, 2 in wide format.
+<https://www.kaggle.com/datasets/arashnic/fitbit>
 
-**File Size:** 587 MB
+**Data Source Types**: 
 
-**Creator/Date:** Distributed survey by Amazon Mechanical Turk between March 12, 2016, to May 12, 2016.
+Primary Data, External Data, Continuous Data, Quantitative Data, and Structured Data.
 
-**Expected update frequency:** Annually.
+**File Type:** 
 
-**Licensing:** CC0: Public Domain.
+2 File Directories with 29 .csv files in majority long format, 2 in wide format.
 
-**Citation:** Furberg, Robert; Brinton, Julia; Keating, Michael ; Ortiz, Alexa. <https://zenodo.org/record/53894#.X9oeh3Uzaao>
+**File Size:** 
 
-**Bias or Credibility:** Data is gathered from a different smart device company. Credibility is an issue with a small sample size of thirty participants and data is only from the year 2016 for select months.
+587 MB
 
-**Data Integrity:** Made a copy of the original data set and renamed 29 comma separated value (.csv) files for easier standardization. Loaded, previewed, and performed normalization on data in RStudio. No missing values (n_missing) detected in 27 out of 29 .csv files. Exceptions include 2 out of 29 .csv files consisting of weight log info for 3.12 to 4.12 and 4.12 to 5.12; the former contains 31 NA values under “Fat” column and the latter contains 65 NA values under a similar column. There are also inconsistent distinct (n_distinct) numeric “Id” numbers across all files to represent 30 Fitbit users. In most files there are 33-34, while others contain 8, 11, 14, 23, 24 and 35 values. Possibility of under and overreporting from users. Millions (6-7 digits) of observations for minutes metric activities, exception of sleep. Ten thousand (5 digits) of observations for hourly metric activities. Thousand (4 digits) of observations for daily metric activities. Hundred (3 digits) of observations only for daily metric weight and sleep. Dataset is incomplete, does not include daily calories, daily intensities, daily steps, and sleep day files for March to April.
+**Creator/Date:** 
+
+Distributed survey by Amazon Mechanical Turk between March 12, 2016, to May 12, 2016.
+
+**Expected update frequency:** 
+
+Annually.
+
+**Licensing:** 
+
+CC0: Public Domain.
+
+**Citation:** 
+
+Furberg, Robert; Brinton, Julia; Keating, Michael ; Ortiz, Alexa. <https://zenodo.org/record/53894#.X9oeh3Uzaao>
+
+**Bias or Credibility:** 
+
+Data is gathered from a different smart device company. Credibility is an issue with a small sample size of thirty participants and data is only from the year 2016 for select months.
+
+**Data Integrity:** 
+
+Made a copy of the original data set and renamed 29 comma separated value (.csv) files for easier standardization. Loaded, previewed, and performed normalization on data in RStudio. No missing values (n_missing) detected in 27 out of 29 .csv files. Exceptions include 2 out of 29 .csv files consisting of weight log info for 3.12 to 4.12 and 4.12 to 5.12; the former contains 31 NA values under “Fat” column and the latter contains 65 NA values under a similar column. There are also inconsistent distinct (n_distinct) numeric “Id” numbers across all files to represent 30 Fitbit users. In most files there are 33-34, while others contain 8, 11, 14, 23, 24 and 35 values. Possibility of under and overreporting from users. Millions (6-7 digits) of observations for minutes metric activities, exception of sleep. Ten thousand (5 digits) of observations for hourly metric activities. Thousand (4 digits) of observations for daily metric activities. Hundred (3 digits) of observations only for daily metric weight and sleep. Dataset is incomplete, does not include daily calories, daily intensities, daily steps, and sleep day files for March to April.
 
 #
 
