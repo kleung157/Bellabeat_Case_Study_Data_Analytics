@@ -333,6 +333,7 @@ d. **Very strong correlation** (0.8 - 1) are the most reliable trends to capture
 
 ## 5. Share
 #### Dashboard:
+[https://public.tableau.com/views/bellabeat_dashboard_17398865619940/BellabeatCaseStudy?:language=en-US&publish=yes&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link](https://public.tableau.com/views/bellabeat_dashboard_17398865619940/BellabeatCaseStudy?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
 ![bellabeat_dashboard](./bellabeat_dashboard.png)
 
 # 
