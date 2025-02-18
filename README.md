@@ -5,6 +5,7 @@
 
 ##### Author: Kevin Leung
 ##### Date: 2025-01-27
+##### [Full Document](https://github.com/kleung157/Bellabeat_Case_Study_Google_Data_Analytics/blob/ba4e810b2ea8f7d907c0e844fd44f2d4f9583cc6/bellabeat_case_study_deliverables.Rmd)
 
 ##### Data Analysis Contents:
 ##### 1. Ask
@@ -13,6 +14,8 @@
 ##### 4. [Analysis](https://github.com/kleung157/Bellabeat_Case_Study_Google_Data_Analytics/blob/a4badf3cdaa88cf38fea809e00263c21accd68fa/bellabeat_data_analyze_2025_01_27.Rmd)
 ##### 5. [Share](https://github.com/kleung157/Bellabeat_Case_Study_Google_Data_Analytics/blob/a4badf3cdaa88cf38fea809e00263c21accd68fa/bellabeat_dashboard.png)
 ##### 6. Act
+
+
 
 #
 
@@ -40,7 +43,7 @@ Bellabeat marketing analytics team – data analysts, marketers, and strategists
 
 *Specific* – Does Bellabeat currently use smart device data to drive important business decisions? What data metrics are collected from smart devices and how is it used?
 
-*Measurable* – How do activity, sleep, stress, mindfulness and reproductive habit trends correlate with health in smart devices? How do these smart device trends correlate with health in Bellabeat products like Leaf, Time, Or Spring? Which products follow trends that are most significant to measure for users
+*Measurable* – How do activity, sleep, stress, mindfulness and reproductive habit trends correlate with health in smart devices? How do these smart device trends correlate with health in Bellabeat products like Leaf, Time, Or Spring? Which products follow trends that are most significant to measure for users?
 
 *Action-oriented* – What non-Bellabeat smart device data trends are important to a smart device consumer?
 
