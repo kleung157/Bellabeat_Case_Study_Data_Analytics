@@ -1,0 +1,1907 @@
+---
+title: "Bellabeat Case Study - Deliverables"
+author: "Kevin Leung"
+date: "2025-01-27"
+output: html_document
+---
+
+# Bellabeat Case Study:
+
+# How Can a Wellness Technology Company Play it Smart?
+
+![](bellabeat_case_study_2025_01_27/bellabeat_logo.png)
+
+## 1. Ask:
+
+**Background:**
+
+Founded in 2013 by artist Urška Sršen and mathematician Sando Mur, Bellabeat is a health and wellness technology company that seeks to inform, inspire, and empower women to make health-conscious decisions. Bellabeat manufactures smart devices that can track an individual’s activity, sleep, stress, mindfulness, and reproductive health habits. Combined with their companion Bellabeat app and subscription-based membership model, these products deliver personalized data and guidance to meet a user’s current lifestyle and desired goals. More recently in 2016, Bellabeat released multiple new products (Leaf, Time, and Spring) and expanded its’ offices around the world. Bellabeat products are available through a number of online retailers and displayed extensively in digital marketing platforms such as Google, Facebook, Instagram, Twitter, YouTube, etc.
+
+**Purpose:**
+
+The goal of this project is to find opportunities for growth in current and future markets by using smart device usage data to deliver insights that can drive strategical innovation for Bellabeat to have a greater global presence. Identifying trends in non-Bellabeat smart device usage will help Bellabeat customers and its marketing strategists. After identifying these trends, the project will study the relationship of non-Bellabeat user habits to a Bellabeat product’s tracking capabilities and then form recommendations that meet the needs of potential users. These recommendations include updates to the Bellabeat app and product design enhancements that would be most useful for driving consumer demand and retention. The final deliverables will include a clear summary of the business task, a description of all data sources used, documentation of any cleaning or manipulation of data, a summary of analysis, supporting visualizations and key findings, and recommendations based on analysis.
+
+**Business Task:** Discover opportunities for growth in current and future markets by using non-Bellabeat smart device usage data to identify trends compatible with Bellabeat products and deliver insights that can drive strategical innovation for Bellabeat to have a greater global presence.
+
+**Key Stakeholders:**
+
+Urška Sršen – cofounder, artist, and Chief Creative Officer
+
+Sando Mur – cofounder, mathematician, and executive team member
+
+Bellabeat marketing analytics team – data analysts, marketers, and strategists
+
+**SMART Questions:**
+
+*Specific* – Does Bellabeat currently use smart device data to drive important business decisions? What data metrics are collected from smart devices and how is it used?
+
+*Measurable* – How do activity, sleep, stress, mindfulness and reproductive habit trends correlate with health in smart devices? How do these smart device trends correlate with health in Bellabeat products like Leaf, Time, Or Spring? Which products follow trends that are most significant to measure for users
+
+*Action-oriented* – What non-Bellabeat smart device data trends are important to a smart device consumer?
+
+*Relevant* – How does data from non-Bellabeat users influence consumer decisions to use smart devices and more importantly, Bellabeat products?
+
+*Time-bound* – How has Bellabeat incorporated smart device data in the past few years to form decisions that result in an increase of smart device consumption?
+
+## 2. Prepare:
+
+**Data Set:** FitBit Fitness Tracker Data – “Data set contains personal fitness tracker from thirty FitBit users.  Thirty eligible FitBit users consented to submission of personal tracker data. Minute-level output for physical activity, heart rate, and sleep monitoring. Information about daily activity, steps and heart rate can be used to explore user habits.”
+
+**Data Source**: <https://www.kaggle.com/datasets/arashnic/fitbit>
+
+**Data Source Types**: Primary Data, External Data, Continuous Data, Quantitative Data, and Structured Data.
+
+**File Type:** 2 File Directories with 29 .csv files in majority long format, 2 in wide format.
+
+**File Size:** 587 MB
+
+**Creator/Date:** Distributed survey by Amazon Mechanical Turk between March 12, 2016, to May 12, 2016.
+
+**Expected update frequency:** Annually.
+
+**Licensing:** CC0: Public Domain.
+
+**Citation:** Furberg, Robert; Brinton, Julia; Keating, Michael ; Ortiz, Alexa. <https://zenodo.org/record/53894#.X9oeh3Uzaao>
+
+**Bias or Credibility:** Data is gathered from a different smart device company. Credibility is an issue with a small sample size of thirty participants and data is only from the year 2016 for select months.
+
+**Data Integrity:** Made a copy of the original data set and renamed 29 comma separated value (.csv) files for easier standardization. Loaded, previewed, and performed normalization on data in RStudio. No missing values (n_missing) detected in 27 out of 29 .csv files. Exceptions include 2 out of 29 .csv files consisting of weight log info for 3.12 to 4.12 and 4.12 to 5.12; the former contains 31 NA values under “Fat” column and the latter contains 65 NA values under a similar column. There are also inconsistent distinct (n_distinct) numeric “Id” numbers across all files to represent 30 Fitbit users. In most files there are 33-34, while others contain 8, 11, 14, 23, 24 and 35 values. Possibility of under and overreporting from users. Millions (6-7 digits) of observations for minutes metric activities, exception of sleep. Ten thousand (5 digits) of observations for hourly metric activities. Thousand (4 digits) of observations for daily metric activities. Hundred (3 digits) of observations only for daily metric weight and sleep. Dataset is incomplete, does not include daily calories, daily intensities, daily steps, and sleep day files for March to April.
+
+### Setting up my environment
+
+Setting up my R environment by loading 'tidyverse', 'here', 'skimr' and 'janitor' packages.
+
+```{r loading packages}
+install.packages("tidyverse")
+install.packages("here")
+install.packages("skimr")
+install.packages("janitor")
+library("tidyverse")
+library("here")
+library("skimr")
+library("janitor")
+```
+
+### Normalization of Data
+
+Loading, previewing and standardizing the dataset files.
+
+```{r reading dataset files}
+daily_activity_mar_apr <- read_csv("dailyactivity_3_to_4.csv")
+
+heart_rate_mar_apr <- read_csv("heartrate_seconds_3_to_4.csv")
+
+hourly_calories_mar_apr <- read_csv("hourlycalories_3_to_4.csv")
+
+hourly_intensities_mar_apr <- read_csv("hourlyintensities_3_to_4.csv")
+
+hourly_steps_mar_apr <- read_csv("hourlysteps_3_to_4.csv")
+
+minute_calories_mar_apr <- read_csv("minutecaloriesnarrow_3_to_4.csv")
+
+minute_intensities_mar_apr <-read_csv("minuteintensitiesnarrow_3_to_4.csv")
+
+minute_mets_mar_apr <- read_csv("minutemetsnarrow_3_to_4.csv")
+
+minute_sleep_mar_apr <- read_csv("minutesleep_3_to_4.csv")
+
+minute_steps_mar_apr <- read_csv("minutestepsnarrow_3_to_4.csv")
+
+weight_log_mar_apr <- read_csv("weightloginfo_3_to_4.csv")
+
+daily_activity_apr_may <- read_csv("dailyactivity_4_to_5.csv")
+
+daily_calories_apr_may <- read_csv("dailycalories_4_to_5.csv")
+
+daily_intensities_apr_may <- read_csv("dailyintensities_4_to_5.csv")
+
+daily_steps_apr_may <- read_csv("dailysteps_4_to_5.csv")
+
+heart_rate_apr_may <- read_csv("heartrate_seconds_4_to_5.csv")
+
+hourly_calories_apr_may <- read_csv("hourlycalories_4_to_5.csv")
+
+hourly_intensities_apr_may <- read_csv("hourlyintensities_4_to_5.csv")
+
+hourly_steps_apr_may <- read_csv("hourlysteps_4_to_5.csv")
+
+minute_calories_apr_may <- read_csv("minutecaloriesnarrow_4_to_5.csv")
+
+minute_calories_apr_may_2 <- read_csv("minutecalorieswide_4_to_5.csv")
+
+minute_intensities_apr_may <- read_csv("minuteintensitiesnarrow_4_to_5.csv")
+
+minute_intensities_apr_may_2 <- read_csv("minuteintensitieswide_4_to_5.csv")
+
+minute_mets_apr_may <- read_csv("minutemetsnarrow_4_to_5.csv")
+
+minute_sleep_apr_may <- read_csv("minutesleep_4_to_5.csv")
+
+minute_steps_apr_may <- read_csv("minutestepsnarrow_4_to_5.csv")
+
+minute_steps_apr_may_2 <- read_csv("minutestepswide_4_to_5.csv")
+
+sleep_day_apr_may <- read_csv("sleepday_4_to_5.csv")
+
+weight_log_apr_may <- read_csv("weightloginfo_4_to_5.csv")
+```
+
+```{r previewing data for n_missing values}
+skim_without_charts(daily_activity_mar_apr)
+head(daily_activity_mar_apr)
+
+skim_without_charts(heart_rate_mar_apr)
+head(heart_rate_mar_apr)
+
+skim_without_charts(hourly_calories_mar_apr)
+head(hourly_calories_mar_apr)
+
+skim_without_charts(hourly_intensities_mar_apr)
+head(hourly_intensities_mar_apr)
+
+skim_without_charts(hourly_steps_mar_apr)
+head(hourly_steps_mar_apr)
+
+skim_without_charts(minute_calories_mar_apr)
+head(minute_calories_mar_apr)
+
+skim_without_charts(minute_intensities_mar_apr)
+head(minute_intensities_mar_apr)
+
+skim_without_charts(minute_mets_mar_apr)
+head(minute_mets_mar_apr)
+
+skim_without_charts(minute_sleep_mar_apr)
+head(minute_sleep_mar_apr)
+
+skim_without_charts(minute_steps_mar_apr)
+head(minute_steps_mar_apr)
+
+skim_without_charts(weight_log_mar_apr)
+head(weight_log_mar_apr)
+
+skim_without_charts(daily_activity_apr_may)
+head(daily_activity_apr_may)
+
+skim_without_charts(daily_calories_apr_may)
+head(daily_calories_apr_may)
+
+skim_without_charts(daily_intensities_apr_may)
+head(daily_intensities_apr_may)
+
+skim_without_charts(daily_steps_apr_may)
+head(daily_steps_apr_may)
+
+skim_without_charts(heart_rate_apr_may)
+head(heart_rate_apr_may)
+
+skim_without_charts(hourly_calories_apr_may)
+head(hourly_calories_apr_may)
+
+skim_without_charts(hourly_intensities_apr_may)
+head(hourly_intensities_apr_may)
+
+skim_without_charts(hourly_steps_apr_may)
+head(hourly_steps_apr_may)
+
+skim_without_charts(minute_calories_apr_may)
+head(minute_calories_apr_may)
+
+skim_without_charts(minute_calories_apr_may_2)
+head(minute_calories_apr_may_2)
+
+skim_without_charts(minute_intensities_apr_may)
+head(minute_intensities_apr_may)
+
+skim_without_charts(minute_intensities_apr_may_2)
+head(minute_intensities_apr_may_2)
+
+skim_without_charts(minute_mets_apr_may)
+head(minute_mets_apr_may)
+
+skim_without_charts(minute_sleep_apr_may)
+head(minute_sleep_apr_may)
+
+skim_without_charts(minute_steps_apr_may)
+head(minute_steps_apr_may)
+
+skim_without_charts(minute_steps_apr_may_2)
+head(minute_steps_apr_may_2)
+
+skim_without_charts(sleep_day_apr_may)
+head(sleep_day_apr_may)
+
+skim_without_charts(weight_log_apr_may)
+head(weight_log_apr_may)
+```
+
+```{r previewing column relationships}
+colnames(daily_activity_mar_apr)
+
+colnames(heart_rate_mar_apr)
+
+colnames(hourly_calories_mar_apr)
+
+colnames(hourly_intensities_mar_apr)
+
+colnames(hourly_steps_mar_apr)
+
+colnames(minute_calories_mar_apr)
+
+colnames(minute_intensities_mar_apr)
+
+colnames(minute_mets_mar_apr)
+
+colnames(minute_sleep_mar_apr)
+
+colnames(minute_steps_mar_apr)
+
+colnames(weight_log_mar_apr)
+
+colnames(daily_activity_apr_may)
+
+colnames(daily_calories_apr_may)
+
+colnames(daily_intensities_apr_may)
+
+colnames(daily_steps_apr_may)
+
+colnames(heart_rate_apr_may)
+
+colnames(hourly_calories_apr_may)
+
+colnames(hourly_intensities_apr_may)
+
+colnames(hourly_steps_apr_may)
+
+colnames(minute_calories_apr_may)
+
+colnames(minute_calories_apr_may_2)
+
+colnames(minute_intensities_apr_may)
+
+colnames(minute_intensities_apr_may_2)
+
+colnames(minute_mets_apr_may)
+
+colnames(minute_sleep_apr_may)
+
+colnames(minute_steps_apr_may)
+
+colnames(minute_steps_apr_may_2)
+
+colnames(sleep_day_apr_may)
+
+colnames(weight_log_apr_may)
+```
+
+```{r identifying number of unique ids}
+daily_activity_id <- n_distinct(daily_activity_mar_apr$Id)
+
+heart_rate_id <- n_distinct(heart_rate_mar_apr$Id)
+
+hourly_calories_id <- n_distinct(hourly_calories_mar_apr$Id)
+
+hourly_intensities_id <- n_distinct(hourly_intensities_mar_apr$Id)
+
+hourly_steps_id <- n_distinct(hourly_steps_mar_apr$Id)
+
+minute_calories_id <- n_distinct(minute_calories_mar_apr$Id)
+
+minute_intensities_id <- n_distinct(minute_intensities_mar_apr$Id)
+
+minute_mets_id <- n_distinct(minute_mets_mar_apr$Id)
+
+minute_sleep_id <- n_distinct(minute_sleep_mar_apr$Id)
+
+minute_steps_id <- n_distinct(minute_steps_mar_apr$Id)
+
+weight_log_id <- n_distinct(weight_log_mar_apr$Id)
+
+daily_activity_id2 <- n_distinct(daily_activity_apr_may$Id)
+
+daily_calories_id2 <- n_distinct(daily_calories_apr_may$Id)
+
+daily_intensities_id2 <- n_distinct(daily_intensities_apr_may$Id)
+
+daily_steps_id2 <- n_distinct(daily_steps_apr_may$Id)
+
+heart_rate_id2 <- n_distinct(heart_rate_apr_may$Id)
+
+hourly_calories_id2 <- n_distinct(hourly_calories_apr_may$Id)
+
+hourly_intensities_id2 <- n_distinct(hourly_intensities_apr_may$Id)
+
+hourly_steps_id2 <- n_distinct(hourly_steps_apr_may$Id)
+
+minute_calories_id2 <- n_distinct(minute_calories_apr_may$Id)
+
+minute_calories_id3 <- n_distinct(minute_calories_apr_may_2$Id)
+
+minute_intensities_id2 <- n_distinct(minute_intensities_apr_may$Id)
+
+minute_intensities_id3 <- n_distinct(minute_intensities_apr_may_2$Id)
+
+minute_mets_id2 <- n_distinct(minute_mets_apr_may$Id)
+
+minute_sleep_id2 <- n_distinct(minute_sleep_apr_may$Id)
+
+minute_steps_id2 <- n_distinct(minute_steps_apr_may$Id)
+
+minute_steps_id3 <- n_distinct(minute_steps_apr_may_2$Id)
+
+sleep_day_id2 <- n_distinct(sleep_day_apr_may$Id)
+
+weight_log_id2 <- n_distinct(weight_log_apr_may$Id)
+```
+
+```{r identifying number of observations}
+daily_activity_mar_apr %>% nrow()
+
+heart_rate_mar_apr %>% nrow()
+
+hourly_calories_mar_apr %>% nrow()
+
+hourly_intensities_mar_apr%>% nrow()
+
+hourly_steps_mar_apr %>% nrow()
+
+minute_calories_mar_apr %>% nrow()
+
+minute_intensities_mar_apr %>% nrow()
+
+minute_mets_mar_apr %>% nrow()
+
+minute_sleep_mar_apr %>% nrow()
+
+minute_steps_mar_apr %>% nrow()
+
+weight_log_mar_apr %>% nrow()
+
+daily_activity_apr_may %>% nrow()
+
+daily_calories_apr_may %>% nrow()
+
+daily_intensities_apr_may %>% nrow()
+
+daily_steps_apr_may %>% nrow()
+
+heart_rate_apr_may %>% nrow()
+
+hourly_calories_apr_may %>% nrow()
+
+hourly_intensities_apr_may %>% nrow()
+
+hourly_steps_apr_may %>% nrow()
+
+minute_calories_apr_may %>% nrow()
+
+minute_calories_apr_may_2 %>% nrow()
+
+minute_intensities_apr_may %>% nrow()
+
+minute_intensities_apr_may_2 %>% nrow()
+
+minute_mets_apr_may %>% nrow()
+
+minute_sleep_apr_may %>% nrow()
+
+minute_steps_apr_may %>% nrow()
+
+minute_steps_apr_may_2 %>% nrow()
+
+sleep_day_apr_may %>% nrow()
+
+weight_log_apr_may %>% nrow()
+```
+
+## 3. Process:
+
+### Setting up my environment
+
+Setting up my R environment by loading 'tidyverse', 'here', 'skimr' and 'janitor' packages.
+
+```{r loading packages}
+install.packages("tidyverse")
+install.packages("here")
+install.packages("skimr")
+install.packages("janitor")
+library("tidyverse")
+library("here")
+library("skimr")
+library("janitor")
+```
+
+### Processing of Data
+
+Cleaning and transformation of the dataset.
+
+```{r reading dataset files}
+daily_activity_mar_apr <- read_csv("dailyactivity_3_to_4.csv")
+
+heart_rate_mar_apr <- read_csv("heartrate_seconds_3_to_4.csv")
+
+hourly_calories_mar_apr <- read_csv("hourlycalories_3_to_4.csv")
+
+hourly_intensities_mar_apr <- read_csv("hourlyintensities_3_to_4.csv")
+
+hourly_steps_mar_apr <- read_csv("hourlysteps_3_to_4.csv")
+
+minute_calories_mar_apr <- read_csv("minutecaloriesnarrow_3_to_4.csv")
+
+minute_intensities_mar_apr <-read_csv("minuteintensitiesnarrow_3_to_4.csv")
+
+minute_mets_mar_apr <- read_csv("minutemetsnarrow_3_to_4.csv")
+
+minute_sleep_mar_apr <- read_csv("minutesleep_3_to_4.csv")
+
+minute_steps_mar_apr <- read_csv("minutestepsnarrow_3_to_4.csv")
+
+weight_log_mar_apr <- read_csv("weightloginfo_3_to_4.csv")
+
+daily_activity_apr_may <- read_csv("dailyactivity_4_to_5.csv")
+
+daily_calories_apr_may <- read_csv("dailycalories_4_to_5.csv")
+
+daily_intensities_apr_may <- read_csv("dailyintensities_4_to_5.csv")
+
+daily_steps_apr_may <- read_csv("dailysteps_4_to_5.csv")
+
+heart_rate_apr_may <- read_csv("heartrate_seconds_4_to_5.csv")
+
+hourly_calories_apr_may <- read_csv("hourlycalories_4_to_5.csv")
+
+hourly_intensities_apr_may <- read_csv("hourlyintensities_4_to_5.csv")
+
+hourly_steps_apr_may <- read_csv("hourlysteps_4_to_5.csv")
+
+minute_calories_apr_may <- read_csv("minutecaloriesnarrow_4_to_5.csv")
+
+minute_calories_apr_may_2 <- read_csv("minutecalorieswide_4_to_5.csv")
+
+minute_intensities_apr_may <- read_csv("minuteintensitiesnarrow_4_to_5.csv")
+
+minute_intensities_apr_may_2 <- read_csv("minuteintensitieswide_4_to_5.csv")
+
+minute_mets_apr_may <- read_csv("minutemetsnarrow_4_to_5.csv")
+
+minute_sleep_apr_may <- read_csv("minutesleep_4_to_5.csv")
+
+minute_steps_apr_may <- read_csv("minutestepsnarrow_4_to_5.csv")
+
+minute_steps_apr_may_2 <- read_csv("minutestepswide_4_to_5.csv")
+
+sleep_day_apr_may <- read_csv("sleepday_4_to_5.csv")
+
+weight_log_apr_may <- read_csv("weightloginfo_4_to_5.csv")
+
+```
+
+```{r removing non distinct values}
+distinct(daily_activity_mar_apr)
+
+distinct(daily_activity_apr_may)
+
+distinct(daily_calories_apr_may)
+
+distinct(daily_intensities_apr_may)
+
+distinct(daily_steps_apr_may)
+
+distinct(heart_rate_mar_apr)
+
+distinct(heart_rate_apr_may)
+
+distinct(hourly_calories_mar_apr)
+
+distinct(hourly_calories_apr_may)
+
+distinct(hourly_intensities_mar_apr)
+
+distinct(hourly_intensities_apr_may)
+
+distinct(hourly_steps_mar_apr)
+
+distinct(hourly_steps_apr_may)
+
+distinct(minute_calories_mar_apr)
+
+distinct(minute_calories_apr_may)
+
+distinct(minute_calories_apr_may_2)
+
+distinct(minute_intensities_mar_apr)
+
+distinct(minute_intensities_apr_may)
+
+distinct(minute_intensities_apr_may_2)
+
+distinct(minute_mets_mar_apr)
+
+distinct(minute_mets_apr_may)
+
+distinct(minute_sleep_mar_apr)
+
+distinct(minute_sleep_apr_may)
+
+distinct(minute_steps_mar_apr)
+
+distinct(minute_steps_apr_may)
+
+distinct(minute_steps_apr_may_2)
+
+distinct(sleep_day_apr_may)
+
+distinct(weight_log_mar_apr)
+
+distinct(weight_log_apr_may)
+```
+
+```{r standardizing column names to snake case or lower case}
+daily_activity_mar_apr_cleaned <- clean_names(daily_activity_mar_apr)
+
+daily_activity_apr_may_cleaned <- clean_names(daily_activity_apr_may)
+
+daily_calories_apr_may_cleaned <- clean_names(daily_calories_apr_may)
+
+daily_intensities_apr_may_cleaned <- clean_names(daily_intensities_apr_may)
+
+daily_steps_apr_may_cleaned <- clean_names(daily_steps_apr_may)
+
+heart_rate_mar_apr_cleaned <- clean_names(heart_rate_mar_apr)
+
+heart_rate_apr_may_cleaned <- clean_names(heart_rate_apr_may)
+
+hourly_calories_mar_apr_cleaned <- clean_names(hourly_calories_mar_apr)
+
+hourly_calories_apr_may_cleaned <- clean_names(hourly_calories_apr_may)
+
+hourly_intensities_mar_apr_cleaned <- clean_names(hourly_intensities_mar_apr)
+
+hourly_intensities_apr_may_cleaned <- clean_names(hourly_intensities_apr_may)
+
+hourly_steps_mar_apr_cleaned <- clean_names(hourly_steps_mar_apr)
+
+hourly_steps_apr_may_cleaned <- clean_names(hourly_steps_apr_may)
+
+minute_calories_mar_apr_cleaned <- clean_names(minute_calories_mar_apr)
+
+minute_calories_apr_may_cleaned <- clean_names(minute_calories_apr_may)
+
+minute_calories_apr_may_2_cleaned <- clean_names(minute_calories_apr_may_2)
+
+minute_intensities_mar_apr_cleaned <- clean_names(minute_intensities_mar_apr)
+
+minute_intensities_apr_may_cleaned <- clean_names(minute_intensities_apr_may)
+
+minute_intensities_apr_may_2_cleaned <- clean_names(minute_intensities_apr_may_2)
+
+minute_mets_mar_apr_cleaned <- clean_names(minute_mets_mar_apr)
+
+minute_mets_apr_may_cleaned <- clean_names(minute_mets_apr_may)
+
+minute_sleep_mar_apr_cleaned <- clean_names(minute_sleep_mar_apr)
+
+minute_sleep_apr_may_cleaned <- clean_names(minute_sleep_apr_may)
+
+minute_steps_mar_apr_cleaned <- clean_names(minute_steps_mar_apr)
+
+minute_steps_apr_may_cleaned <- clean_names(minute_steps_apr_may)
+
+minute_steps_apr_may_2_cleaned <- clean_names(minute_steps_apr_may_2)
+
+sleep_day_apr_may_cleaned <- clean_names(sleep_day_apr_may)
+
+weight_log_mar_apr_cleaned <- clean_names(weight_log_mar_apr)
+
+weight_log_apr_may_cleaned <- clean_names(weight_log_apr_may)
+```
+
+```{r reviewing column changes and relationships}
+colnames(daily_activity_mar_apr_cleaned)
+
+colnames(daily_activity_apr_may_cleaned)
+
+colnames(daily_calories_apr_may_cleaned)
+
+colnames(daily_intensities_apr_may_cleaned)
+
+colnames(daily_steps_apr_may_cleaned)
+
+colnames(heart_rate_mar_apr_cleaned)
+
+colnames(heart_rate_apr_may_cleaned)
+
+colnames(hourly_calories_mar_apr_cleaned)
+
+colnames(hourly_calories_apr_may_cleaned)
+
+colnames(hourly_intensities_mar_apr_cleaned)
+
+colnames(hourly_intensities_apr_may_cleaned)
+
+colnames(hourly_steps_mar_apr_cleaned)
+
+colnames(hourly_steps_apr_may_cleaned)
+
+colnames(minute_calories_mar_apr_cleaned)
+
+colnames(minute_calories_apr_may_cleaned)
+
+colnames(minute_calories_apr_may_2_cleaned)
+
+colnames(minute_intensities_mar_apr_cleaned)
+
+colnames(minute_intensities_apr_may_cleaned)
+
+colnames(minute_intensities_apr_may_2_cleaned)
+
+colnames(minute_mets_mar_apr_cleaned)
+
+colnames(minute_mets_apr_may_cleaned)
+
+colnames(minute_sleep_mar_apr_cleaned)
+
+colnames(minute_sleep_apr_may_cleaned)
+
+colnames(minute_steps_mar_apr_cleaned)
+
+colnames(minute_steps_apr_may_cleaned)
+
+colnames(minute_steps_apr_may_2_cleaned)
+
+colnames(sleep_day_apr_may_cleaned)
+
+colnames(weight_log_mar_apr_cleaned)
+
+colnames(weight_log_apr_may_cleaned)
+```
+
+```{r standardizing datetime to ymd and military time}
+daily_activity_mar_apr_cleaned$activity_date <- as.Date(daily_activity_mar_apr_cleaned$activity_date, format = "%m/%d/%Y")
+daily_activity_mar_apr_cleaned$activity_date <- strftime(daily_activity_mar_apr_cleaned$activity_date, format = "%Y-%m-%d")
+
+daily_activity_apr_may_cleaned$activity_date <- as.Date(daily_activity_apr_may_cleaned$activity_date, format = "%m/%d/%Y")
+daily_activity_apr_may_cleaned$activity_date <- strftime(daily_activity_apr_may_cleaned$activity_date, format = "%Y-%m-%d")
+
+daily_calories_apr_may_cleaned$activity_day <- as.Date(daily_calories_apr_may_cleaned$activity_day, format = "%m/%d/%Y")
+daily_calories_apr_may_cleaned$activity_day <- strftime(daily_calories_apr_may_cleaned$activity_day, format = "%Y-%m-%d")
+
+daily_intensities_apr_may_cleaned$activity_day <- as.Date(daily_intensities_apr_may_cleaned$activity_day, format = "%m/%d/%Y")
+daily_intensities_apr_may_cleaned$activity_day<- strftime(daily_intensities_apr_may_cleaned$activity_day, format = "%Y-%m-%d")
+
+daily_steps_apr_may_cleaned$activity_day <- as.Date(daily_steps_apr_may_cleaned$activity_day, format = "%m/%d/%Y")
+daily_steps_apr_may_cleaned$activity_day <- strftime(daily_steps_apr_may_cleaned$activity_day, format = "%Y-%m-%d")
+
+heart_rate_mar_apr_cleaned$time <- strptime(heart_rate_mar_apr_cleaned$time, format = "%m/%d/%Y %I:%M:%S %p")
+heart_rate_mar_apr_cleaned$time <- strftime(heart_rate_mar_apr_cleaned$time, format = "%Y-%m-%d %H:%M:%S")
+
+heart_rate_apr_may_cleaned$time <- strptime(heart_rate_apr_may_cleaned$time, format = "%m/%d/%Y %I:%M:%S %p")
+heart_rate_apr_may_cleaned$time <- strftime(heart_rate_apr_may_cleaned$time, format = "%Y-%m-%d %H:%M:%S")
+
+hourly_calories_mar_apr_cleaned$activity_hour <- strptime(hourly_calories_mar_apr_cleaned$activity_hour, format = "%m/%d/%Y %I:%M:%S %p")
+hourly_calories_mar_apr_cleaned$activity_hour <- strftime(hourly_calories_mar_apr_cleaned$activity_hour, format = "%Y-%m-%d %H:%M:%S")
+
+hourly_calories_apr_may_cleaned$activity_hour <- strptime(hourly_calories_apr_may_cleaned$activity_hour, format = "%m/%d/%Y %I:%M:%S %p")
+hourly_calories_apr_may_cleaned$activity_hour <- strftime(hourly_calories_apr_may_cleaned$activity_hour, format = "%Y-%m-%d %H:%M:%S")
+
+hourly_intensities_mar_apr_cleaned$activity_hour <- strptime(hourly_intensities_mar_apr_cleaned$activity_hour, format = "%m/%d/%Y %I:%M:%S %p")
+hourly_intensities_mar_apr_cleaned$activity_hour <- strftime(hourly_intensities_mar_apr_cleaned$activity_hour, format = "%Y-%m-%d %H:%M:%S")
+
+hourly_intensities_apr_may_cleaned$activity_hour <- strptime(hourly_intensities_apr_may_cleaned$activity_hour, format = "%m/%d/%Y %I:%M:%S %p")
+hourly_intensities_apr_may_cleaned$activity_hour <- strftime(hourly_intensities_apr_may_cleaned$activity_hour, format = "%Y-%m-%d %H:%M:%S")
+
+hourly_steps_mar_apr_cleaned$activity_hour <- strptime(hourly_steps_mar_apr_cleaned$activity_hour, format = "%m/%d/%Y %I:%M:%S %p")
+hourly_steps_mar_apr_cleaned$activity_hour <- strftime(hourly_steps_mar_apr_cleaned$activity_hour, format = "%Y-%m-%d %H:%M:%S")
+
+hourly_steps_apr_may_cleaned$activity_hour <- strptime(hourly_steps_apr_may_cleaned$activity_hour, format = "%m/%d/%Y %I:%M:%S %p")
+hourly_steps_apr_may_cleaned$activity_hour <- strftime(hourly_steps_apr_may_cleaned$activity_hour, format = "%Y-%m-%d %H:%M:%S")
+
+minute_calories_mar_apr_cleaned$activity_minute <- strptime(minute_calories_mar_apr_cleaned$activity_minute, format = "%m/%d/%Y %I:%M:%S %p")
+minute_calories_mar_apr_cleaned$activity_minute <- strftime(minute_calories_mar_apr_cleaned$activity_minute, format = "%Y-%m-%d %H:%M:%S")
+
+minute_calories_apr_may_cleaned$activity_minute <- strptime(minute_calories_apr_may_cleaned$activity_minute, format = "%m/%d/%Y %I:%M:%S %p")
+minute_calories_apr_may_cleaned$activity_minute <- strftime(minute_calories_apr_may_cleaned$activity_minute, format = "%Y-%m-%d %H:%M:%S")
+
+minute_calories_apr_may_2_cleaned$activity_hour <- strptime(minute_calories_apr_may_2_cleaned$activity_hour, format = "%m/%d/%Y %I:%M:%S %p")
+minute_calories_apr_may_2_cleaned$activity_hour <- strftime(minute_calories_apr_may_2_cleaned$activity_hour, format = "%Y-%m-%d %H:%M:%S")
+
+minute_intensities_mar_apr_cleaned$activity_minute <- strptime(minute_intensities_mar_apr_cleaned$activity_minute, format = "%m/%d/%Y %I:%M:%S %p")
+minute_intensities_mar_apr_cleaned$activity_minute <- strftime(minute_intensities_mar_apr_cleaned$activity_minute, format = "%Y-%m-%d %H:%M:%S")
+
+minute_intensities_apr_may_cleaned$activity_minute <- strptime(minute_intensities_apr_may_cleaned$activity_minute, format = "%m/%d/%Y %I:%M:%S %p")
+minute_intensities_apr_may_cleaned$activity_minute <- strftime(minute_intensities_apr_may_cleaned$activity_minute, format = "%Y-%m-%d %H:%M:%S")
+
+minute_intensities_apr_may_2_cleaned$activity_hour <- strptime(minute_intensities_apr_may_2_cleaned$activity_hour, format = "%m/%d/%Y %I:%M:%S %p")
+minute_intensities_apr_may_2_cleaned$activity_hour <- strftime(minute_intensities_apr_may_2_cleaned$activity_hour, format = "%Y-%m-%d %H:%M:%S")
+
+minute_mets_mar_apr_cleaned$activity_minute <- strptime(minute_mets_mar_apr_cleaned$activity_minute, format = "%m/%d/%Y %I:%M:%S %p")
+minute_mets_mar_apr_cleaned$activity_minute <- strftime(minute_mets_mar_apr_cleaned$activity_minute, format = "%Y-%m-%d %H:%M:%S")
+
+minute_mets_apr_may_cleaned$activity_minute <- strptime(minute_mets_apr_may_cleaned$activity_minute, format = "%m/%d/%Y %I:%M:%S %p")
+minute_mets_apr_may_cleaned$activity_minute <- strftime(minute_mets_apr_may_cleaned$activity_minute, format = "%Y-%m-%d %H:%M:%S")
+
+minute_sleep_mar_apr_cleaned$date <- strptime(minute_sleep_mar_apr_cleaned$date, format = "%m/%d/%Y %I:%M:%S %p")
+minute_sleep_mar_apr_cleaned$date <- strftime(minute_sleep_mar_apr_cleaned$date, format = "%Y-%m-%d %H:%M:%S")
+
+minute_sleep_apr_may_cleaned$date <- strptime(minute_sleep_apr_may_cleaned$date, format = "%m/%d/%Y %I:%M:%S %p")
+minute_sleep_apr_may_cleaned$date <- strftime(minute_sleep_apr_may_cleaned$date, format = "%Y-%m-%d %H:%M:%S")
+
+minute_steps_mar_apr_cleaned$activity_minute <- strptime(minute_steps_mar_apr_cleaned$activity_minute, format = "%m/%d/%Y %I:%M:%S %p")
+minute_steps_mar_apr_cleaned$activity_minute <- strftime(minute_steps_mar_apr_cleaned$activity_minute, format = "%Y-%m-%d %H:%M:%S")
+
+minute_steps_apr_may_cleaned$activity_minute <- strptime(minute_steps_apr_may_cleaned$activity_minute, format = "%m/%d/%Y %I:%M:%S %p")
+minute_steps_apr_may_cleaned$activity_minute <- strftime(minute_steps_apr_may_cleaned$activity_minute, format = "%Y-%m-%d %H:%M:%S")
+
+minute_steps_apr_may_2_cleaned$activity_hour <- strptime(minute_steps_apr_may_2_cleaned$activity_hour, format = "%m/%d/%Y %I:%M:%S %p")
+minute_steps_apr_may_2_cleaned$activity_hour <- strftime(minute_steps_apr_may_2_cleaned$activity_hour, format = "%Y-%m-%d %H:%M:%S")
+
+sleep_day_apr_may_cleaned$sleep_day <- strptime(sleep_day_apr_may_cleaned$sleep_day, format = "%m/%d/%Y %I:%M:%S %p")
+sleep_day_apr_may_cleaned$sleep_day <- strftime(sleep_day_apr_may_cleaned$sleep_day, format = "%Y-%m-%d %H:%M:%S")
+
+weight_log_mar_apr_cleaned$date <- strptime(weight_log_mar_apr_cleaned$date, format = "%m/%d/%Y %I:%M:%S %p")
+weight_log_mar_apr_cleaned$date <- strftime(weight_log_mar_apr_cleaned$date, format = "%Y-%m-%d %H:%M:%S")
+
+weight_log_apr_may_cleaned$date <- strptime(weight_log_apr_may_cleaned$date, format = "%m/%d/%Y %I:%M:%S %p")
+weight_log_apr_may_cleaned$date <- strftime(weight_log_apr_may_cleaned$date, format = "%Y-%m-%d %H:%M:%S")
+```
+
+```{r splitting datetime columns into activity_date and activity_time}
+heart_rate_mar_apr_cleaned <- separate(heart_rate_mar_apr_cleaned, col = "time", into = c("activity_date", "activity_time"), sep = " ")
+
+heart_rate_apr_may_cleaned <- separate(heart_rate_apr_may_cleaned, col = "time", into = c("activity_date", "activity_time"), sep = " ")
+
+hourly_calories_mar_apr_cleaned <- separate(hourly_calories_mar_apr_cleaned, col = "activity_hour", into = c("activity_date", "activity_time"), sep = " ")
+
+hourly_calories_apr_may_cleaned <- separate(hourly_calories_apr_may_cleaned, col = "activity_hour", into = c("activity_date", "activity_time"), sep = " ")
+
+hourly_intensities_mar_apr_cleaned <- separate(hourly_intensities_mar_apr_cleaned, col = "activity_hour", into = c("activity_date", "activity_time"), sep = " ")
+
+hourly_intensities_apr_may_cleaned <- separate(hourly_intensities_apr_may_cleaned, col = "activity_hour", into = c("activity_date", "activity_time"), sep = " ")
+
+hourly_steps_mar_apr_cleaned <- separate(hourly_steps_mar_apr_cleaned, col = "activity_hour", into = c("activity_date", "activity_time"), sep = " ")
+
+hourly_steps_apr_may_cleaned <- separate(hourly_steps_apr_may_cleaned, col = "activity_hour", into = c("activity_date", "activity_time"), sep = " ")
+
+minute_calories_mar_apr_cleaned <- separate(minute_calories_mar_apr_cleaned, col = "activity_minute", into = c("activity_date", "activity_time"), sep = " ")
+
+minute_calories_apr_may_cleaned <- separate(minute_calories_apr_may_cleaned, col = "activity_minute", into = c("activity_date", "activity_time"), sep = " ")
+
+minute_calories_apr_may_2_cleaned <- separate(minute_calories_apr_may_2_cleaned, col = "activity_hour", into = c("activity_date", "activity_time"), sep = " ")
+
+minute_intensities_mar_apr_cleaned <- separate(minute_intensities_mar_apr_cleaned, col = "activity_minute", into = c("activity_date", "activity_time"), sep = " ")
+
+minute_intensities_apr_may_cleaned <- separate(minute_intensities_apr_may_cleaned, col = "activity_minute", into = c("activity_date", "activity_time"), sep = " ")
+
+minute_intensities_apr_may_2_cleaned <- separate(minute_intensities_apr_may_2_cleaned, col = "activity_hour", into = c("activity_date", "activity_time"), sep = " ")
+
+minute_mets_mar_apr_cleaned <- separate(minute_mets_mar_apr_cleaned, col = "activity_minute", into = c("activity_date", "activity_time"), sep = " ")
+
+minute_mets_apr_may_cleaned <- separate(minute_mets_apr_may_cleaned, col = "activity_minute", into = c("activity_date", "activity_time"), sep = " ")
+
+minute_sleep_mar_apr_cleaned <- separate(minute_sleep_mar_apr_cleaned, col = "date", into = c("activity_date", "activity_time"), sep = " ")
+
+minute_sleep_apr_may_cleaned <- separate(minute_sleep_apr_may_cleaned, col = "date", into = c("activity_date", "activity_time"), sep = " ")
+
+minute_steps_mar_apr_cleaned <- separate(minute_steps_mar_apr_cleaned, col = "activity_minute", into = c("activity_date", "activity_time"), sep = " ")
+
+minute_steps_apr_may_cleaned <- separate(minute_steps_apr_may_cleaned, col = "activity_minute", into = c("activity_date", "activity_time"), sep = " ")
+
+minute_steps_apr_may_2_cleaned <- separate(minute_steps_apr_may_2_cleaned, col = "activity_hour", into = c("activity_date", "activity_time"), sep = " ")
+
+sleep_day_apr_may_cleaned <- separate(sleep_day_apr_may_cleaned, col = "sleep_day", into = c("activity_date", "activity_time"), sep = " ")
+
+weight_log_mar_apr_cleaned <- separate(weight_log_mar_apr_cleaned, col = "date", into = c("activity_date", "activity_time"), sep = " ")
+
+weight_log_apr_may_cleaned <- separate(weight_log_apr_may_cleaned, col = "date",  into = c("activity_date", "activity_time"), sep = " ")
+```
+
+```{r renaming column names for uniformity}
+colnames(daily_calories_apr_may_cleaned)[2] <- "activity_date"
+
+colnames(daily_intensities_apr_may_cleaned)[2] <- "activity_date"
+
+colnames(daily_steps_apr_may_cleaned)[2] <- "activity_date"
+
+colnames(daily_steps_apr_may_cleaned)[3] <- "total_steps"
+
+colnames(heart_rate_mar_apr_cleaned)[4] <- "heart_rate"
+
+colnames(heart_rate_apr_may_cleaned)[4] <- "heart_rate"
+
+colnames(hourly_steps_mar_apr_cleaned)[4] <- "total_steps"
+
+colnames(hourly_steps_apr_may_cleaned)[4] <- "total_steps"
+
+colnames(minute_intensities_mar_apr_cleaned)[4] <- "total_intensity"
+
+colnames(minute_intensities_apr_may_cleaned)[4] <- "total_intensity"
+
+colnames(minute_mets_mar_apr_cleaned)[4] <- "mets"
+
+colnames(minute_mets_apr_may_cleaned)[4] <- "mets"
+
+colnames(minute_sleep_mar_apr_cleaned)[4] <- "sleep_m"
+
+colnames(minute_sleep_apr_may_cleaned)[4] <- "sleep_m"
+
+colnames(minute_steps_mar_apr_cleaned)[4] <- "total_steps"
+
+colnames(minute_steps_apr_may_cleaned)[4] <- "total_steps"
+```
+
+```{r double checking for n_missing values}
+daily_activity_mar_apr_cleaned %>% skim_without_charts()
+
+daily_activity_apr_may_cleaned %>% skim_without_charts()
+
+daily_calories_apr_may_cleaned %>% skim_without_charts()
+
+daily_intensities_apr_may_cleaned %>% skim_without_charts()
+
+daily_steps_apr_may_cleaned %>% skim_without_charts()
+
+heart_rate_mar_apr_cleaned %>% skim_without_charts()
+
+heart_rate_apr_may_cleaned %>% skim_without_charts()
+
+hourly_calories_mar_apr_cleaned %>% skim_without_charts()
+
+hourly_calories_apr_may_cleaned %>% skim_without_charts()
+
+hourly_intensities_mar_apr_cleaned %>% skim_without_charts()
+
+hourly_intensities_apr_may_cleaned %>% skim_without_charts()
+
+hourly_steps_mar_apr_cleaned %>% skim_without_charts()
+
+hourly_steps_apr_may_cleaned %>% skim_without_charts()
+
+minute_calories_mar_apr_cleaned %>% skim_without_charts()
+
+minute_calories_apr_may_cleaned %>% skim_without_charts()
+
+minute_calories_apr_may_2_cleaned %>% skim_without_charts()
+
+minute_intensities_mar_apr_cleaned %>% skim_without_charts()
+
+minute_intensities_apr_may_cleaned %>% skim_without_charts()
+
+minute_intensities_apr_may_2_cleaned %>% skim_without_charts()
+
+minute_mets_mar_apr_cleaned %>% skim_without_charts()
+
+minute_mets_apr_may_cleaned %>% skim_without_charts()
+
+minute_sleep_mar_apr_cleaned %>% skim_without_charts()
+
+minute_sleep_apr_may_cleaned %>% skim_without_charts()
+
+minute_steps_mar_apr_cleaned %>% skim_without_charts()
+
+minute_steps_apr_may_cleaned %>% skim_without_charts()
+
+minute_steps_apr_may_2_cleaned %>% skim_without_charts()
+
+sleep_day_apr_may_cleaned %>% skim_without_charts()
+
+weight_log_mar_apr_cleaned %>% skim_without_charts()
+
+weight_log_apr_may_cleaned %>% skim_without_charts()
+```
+
+```{r remove "fat" columns}
+weight_log_mar_apr_cleaned <- weight_log_mar_apr_cleaned %>% 
+  select(-fat)
+
+weight_log_apr_may_cleaned <- weight_log_apr_may_cleaned %>%
+  select(-fat)
+```
+
+```{r save clean and transformation to new files for analyzing}
+write.csv(daily_activity_mar_apr_cleaned,
+          file = "daily_activity_mar_apr_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(daily_activity_apr_may_cleaned,
+          file = "daily_activity_apr_may_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(daily_calories_apr_may_cleaned,
+          file = "daily_calories_apr_may_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(daily_intensities_apr_may_cleaned,
+          file = "daily_intensities_apr_may_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(daily_steps_apr_may_cleaned,
+          file = "daily_steps_apr_may_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(heart_rate_mar_apr_cleaned,
+          file = "heart_rate_mar_apr_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(heart_rate_apr_may_cleaned,
+          file = "heart_rate_apr_may_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(hourly_calories_mar_apr_cleaned,
+          file = "hourly_calories_mar_apr_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(hourly_calories_apr_may_cleaned,
+          file = "hourly_calories_apr_may_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(hourly_intensities_mar_apr_cleaned,
+          file = "hourly_intensities_mar_apr_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(hourly_intensities_apr_may_cleaned,
+          file = "hourly_intensities_apr_may_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(hourly_steps_mar_apr_cleaned,
+          file = "hourly_steps_mar_apr_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(hourly_steps_apr_may_cleaned,
+          file = "hourly_steps_apr_may_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(minute_calories_mar_apr_cleaned,
+          file = "minute_calories_mar_apr_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(minute_calories_apr_may_cleaned,
+          file = "minute_calories_apr_may_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(minute_calories_apr_may_2_cleaned,
+          file = "minute_calories_apr_may_2_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(minute_intensities_mar_apr_cleaned,
+          file = "minute_intensities_mar_apr_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(minute_intensities_apr_may_cleaned,
+          file = "minute_intensities_apr_may_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(minute_intensities_apr_may_2_cleaned,
+          file = "minute_intensities_apr_may_2_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(minute_mets_mar_apr_cleaned,
+          file = "minute_mets_mar_apr_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(minute_mets_apr_may_cleaned,
+          file = "minute_mets_apr_may_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(minute_sleep_mar_apr_cleaned,
+          file = "minute_sleep_mar_apr_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(minute_sleep_apr_may_cleaned,
+          file = "minute_sleep_apr_may_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(minute_steps_mar_apr_cleaned,
+          file = "minute_steps_mar_apr_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(minute_steps_apr_may_cleaned,
+          file = "minute_steps_apr_may_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(minute_steps_apr_may_2_cleaned,
+          file = "minute_steps_apr_may_2_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(sleep_day_apr_may_cleaned,
+          file = "sleep_day_apr_may_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(weight_log_mar_apr_cleaned,
+          file = "weight_log_mar_apr_cleaned.csv",
+          row.names = FALSE)
+
+write.csv(weight_log_apr_may_cleaned,
+          file = "weight_log_apr_may_cleaned.csv",
+          row.names = FALSE)
+```
+
+## 4. Analyze:
+
+**General Aggregation:**
+
+[Daily total steps]{.underline} – 7281 steps
+
+[Daily total distance]{.underline} – 5.219 km = 3.24 miles
+
+[Daily lightly active minutes]{.underline} – 185.4 minutes
+
+[Daily fairly active minutes]{.underline} - 13.4 minutes
+
+[Daily very active minutes]{.underline} – 19.68 minutes
+
+[Daily sedentary minutes]{.underline} – 992.5 minutes -\> 16.54 hours
+
+[Daily calories burned]{.underline} – 2266 calories
+
+[Daily heart rate]{.underline} – 78 (resting)
+
+[Daily asleep minutes]{.underline} – 419 minutes -\> 6.98 hours
+
+[Daily time in bed]{.underline} - 458 minutes -\> 7.63 hours
+
+[Daily weight log]{.underline} – 72.5 kg, 159.8 lbs, 25.37 bmi
+
+[Hourly calories]{.underline} – 97.39 calories/hr
+
+[Hourly intensities]{.underline} – 11.4 intensity minutes / hr  (mins spent in intensity)
+
+[Hourly steps]{.underline} – 302 steps/hr
+
+[Minute calories]{.underline} – 1.596 calories/min
+
+[Minute intensities -]{.underline} 0.19 intensity minutes / min
+
+[Minute metabolic equivalents (METs)]{.underline} – 14.45 mets/min
+
+[Minute sleep]{.underline} – 1 sleep stage
+
+[Minute steps]{.underline} – 5 steps/min
+
+**Daily Trends:**
+
+Users are around a daily average of 7281 steps, which is under the recommended steps of CDC’s 8000-10000.
+
+Users travel a daily average total distance of 5.219 km, or 3.24 miles
+
+Users spend more time on a daily average in sedentary minutes (992.5 out of 1210.98 total minutes tracked) 4/5 of the time than in active minutes, (218.48 out of 1210.98 total minutes tracked) 1/5 of the time. (CDC recommends 30 minutes a day)
+
+![](images/clipboard-859494293.png){width="492"}
+
+Credits: [Hanna Shuraieva](https://www.kaggle.com/code/hannashuraieva/bellabeat-case-study#4.-Analyze)
+
+Users on a daily average meet daily calorie burning standards with 2266 calories burned (2000-3000 for men and 1600-2400 for women, according to CDC).
+
+Users are at a daily average resting heart rate of 78 (resting is 60-100, active is defined as greater than 100 according to the CDC).
+
+Users spend on a daily average 7 ½ hours in bed, 6.98 hours sleeping which barely meets the minimum by CDC of at least 7 hours.
+
+Users are on a daily average of just meeting overweight standards with a 25.37 bmi (where \<18.5 is under, 18.5-24.9 is normal, and \> 25 is overweight, according to the CDC).
+
+**Hourly Trends:**
+
+Users on an hourly average burn 97.39 calories, move 302 steps, and spend 11.4 minutes in intense activities (11.4/60) which is close to approximate daily user 1/5 of overall time in active minutes.
+
+**Minute Trends:**
+
+Users on a minute average burn 1.596 calories, move 5 steps, and spend 0.19 minutes in intense activities (0.19/60) which is close to approximate daily user 1/5 of overall time in active minutes.
+
+Users on a minute average spend more time in sleep stage 1, lighter sleep. According to the CDC, more time should be focused in stage 3 where deep sleep and non-rapid eye movement occurs.
+
+Users on a minute average have a 14.45 metabolic equivalent, which indicates high energy expenditure of intense physical activities (ex. sitting = 1 MET, walking = 3 MET, running = 16 MET, according to PubMed standards).
+
+**Trends by Day and Time:**
+
+Tuesday was the most consistent active weekday day for user input for daily activity (steps, distance, sedentary, calories), hourly (calories, steps, intensity), and heart rate.
+
+Wednesday was the weekday when most users recorded sleep and weight.
+
+Total user output for hourly calories, intensities, and steps were greatest between 12-2pm, 5-7pm.
+
+Red graphs indicate combined monthly datasets. Sleep_day dataset is bar graphed in blue to indicate that the dataset was not combined nor did it have March to April information.
+
+![](images/clipboard-1539487542.png){width="384"}
+
+Credits: [Hanna Shuraieva](https://www.kaggle.com/code/hannashuraieva/bellabeat-case-study#4.-Analyze) and [Emi Ly](https://github.com/emily1618/Google-Data-Analytics-Bellabeat-Case-Study)
+
+Observations: On [Tuesday]{.underline}, the total count of daily activity days was greatest.
+
+![](images/clipboard-2976688023.png){width="384"}
+
+Credits: [Hanna Shuraieva](https://www.kaggle.com/code/hannashuraieva/bellabeat-case-study#4.-Analyze) and [Emi Ly](https://github.com/emily1618/Google-Data-Analytics-Bellabeat-Case-Study)
+
+Observations: On [Tuesday]{.underline}, the total count of heart rate days was greatest. Followed by Friday and Wednesday.
+
+![](images/clipboard-1045373315.png){width="384"}
+
+Credits: [Hanna Shuraieva](https://www.kaggle.com/code/hannashuraieva/bellabeat-case-study#4.-Analyze) and [Emi Ly](https://github.com/emily1618/Google-Data-Analytics-Bellabeat-Case-Study)
+
+Observations: On [Tuesday]{.underline}, the total sum of daily steps was greatest. Followed by Saturday and Wednesday.
+
+![](images/clipboard-932763949.png){width="384"}
+
+Credits: [Hanna Shuraieva](https://www.kaggle.com/code/hannashuraieva/bellabeat-case-study#4.-Analyze) and [Emi Ly](https://github.com/emily1618/Google-Data-Analytics-Bellabeat-Case-Study)
+
+Observations: On [Tuesday]{.underline}, the total sum of daily distance was greatest. Followed by Saturday and Wednesday.
+
+![](images/clipboard-2447877122.png){width="384"}
+
+Credits: [Hanna Shuraieva](https://www.kaggle.com/code/hannashuraieva/bellabeat-case-study#4.-Analyze) and [Emi Ly](https://github.com/emily1618/Google-Data-Analytics-Bellabeat-Case-Study)
+
+Observations: On [Tuesday]{.underline}, the total sum of daily sedentary minutes was greatest. Followed by Friday and Wednesday.
+
+![](images/clipboard-2541483084.png){width="384"}
+
+Credits: [Hanna Shuraieva](https://www.kaggle.com/code/hannashuraieva/bellabeat-case-study#4.-Analyze) and [Emi Ly](https://github.com/emily1618/Google-Data-Analytics-Bellabeat-Case-Study)
+
+Observations: On [Tuesday]{.underline}, the total sum of daily calories burned was greatest. Followed by Friday and Saturday
+
+![](images/clipboard-2742215993.png){width="384"}
+
+Credits: [Hanna Shuraieva](https://www.kaggle.com/code/hannashuraieva/bellabeat-case-study#4.-Analyze) and [Emi Ly](https://github.com/emily1618/Google-Data-Analytics-Bellabeat-Case-Study)
+
+Observations: On [Tuesday]{.underline}, the total sum of hourly calories burned was greatest. Followed by Wednesday and Thursday.
+
+![](images/clipboard-1170105378.png){width="384"}
+
+Credits: [Hanna Shuraieva](https://www.kaggle.com/code/hannashuraieva/bellabeat-case-study#4.-Analyze) and [Emi Ly](https://github.com/emily1618/Google-Data-Analytics-Bellabeat-Case-Study)
+
+Observations: On [Saturday]{.underline}, the total sum of hourly intensity was greatest. Followed by Tuesday and Wednesday.
+
+![](images/clipboard-622388729.png){width="384"}
+
+Credits: [Hanna Shuraieva](https://www.kaggle.com/code/hannashuraieva/bellabeat-case-study#4.-Analyze) and [Emi Ly](https://github.com/emily1618/Google-Data-Analytics-Bellabeat-Case-Study)
+
+Observations: On [Tuesday]{.underline}, the total sum of hourly steps was greatest. Followed by Saturday and Wednesday.
+
+![](images/clipboard-4180096287.png){width="384"}
+
+Credits: [Hanna Shuraieva](https://www.kaggle.com/code/hannashuraieva/bellabeat-case-study#4.-Analyze) and [Emi Ly](https://github.com/emily1618/Google-Data-Analytics-Bellabeat-Case-Study)
+
+Observations: On [Wednesday]{.underline}, the total sum of hourly steps was greatest. Followed by Tuesday and Thursday.
+
+![](images/clipboard-2243210220.png){width="384"}
+
+Credits: [Hanna Shuraieva](https://www.kaggle.com/code/hannashuraieva/bellabeat-case-study#4.-Analyze) and [Emi Ly](https://github.com/emily1618/Google-Data-Analytics-Bellabeat-Case-Study)
+
+Observations: On [Wednesday]{.underline}, the total sum of hourly steps was greatest. Followed by Monday and Thursday.
+
+![](images/clipboard-2252528475.png)
+
+Credits: [Emi Ly](https://github.com/emily1618/Google-Data-Analytics-Bellabeat-Case-Study)
+
+Observations: Between 12:00-14:00 (12-2pm) and 17:00-19:00 (5-7pm), the total sum of hourly calories burned was greatest.
+
+![](images/clipboard-854272458.png)
+
+Credits: [Emi Ly](https://github.com/emily1618/Google-Data-Analytics-Bellabeat-Case-Study)
+
+Observations: Between 12:00-14:00 (12-2pm) and 17:00-19:00 (5-7pm), the total sum of hourly intensity minutes was greatest.
+
+![](images/clipboard-1488803970.png)
+
+Credits: [Emi Ly](https://github.com/emily1618/Google-Data-Analytics-Bellabeat-Case-Study)
+
+Observations: Between 12:00-14:00 (12-2pm) and 17:00-19:00 (5-7pm), the total sum of hourly steps was greatest.
+
+**Correlation Coefficient Relationships**
+
+Correlation coefficients range from -1 to +1. The strength to which these relationships can be interpreted as follows.
+
+| Correlation Type      | Correlation Coefficient |
+|-----------------------|-------------------------|
+| Negative correlation  | -1                      |
+| No linear correlation | 0                       |
+| Positive correlation  | +1                      |
+
+| Correlation Strength | Coefficient Range |
+|----------------------|-------------------|
+| Very strong          | 0.8 - 1           |
+| Strong               | 0.6 - 0.8         |
+| Moderate             | 0.4 - 0.6         |
+| Weak                 | 0.2 - 0.4         |
+| Very weak or none    | 0.0 - 0.2         |
+
+Exploration of correlation coefficients between different variables in the datasets.
+
+| Dataset: daily_activity           | Coefficient | Strength    |
+|-----------------------------------|-------------|-------------|
+| calories / total_distance         | 0.635       | Strong      |
+| calories / sedentary_minutes      | -0.062      | Very weak   |
+| calories / total_steps            | 0.590       | Moderate    |
+| calories / very_active_minutes    | 0.582       | Moderate    |
+| total_steps / sedentary_minutes   | -0.311      | Weak        |
+| total_steps / total_distance      | 0.986       | Very strong |
+| total_steps / very active minutes | 0.677       | Strong      |
+
+![](images/clipboard-828940815.png){width="577"}
+
+Observations: 0.986 is a very strong correlation between user total distance and steps from the combined daily_activity (daily_activity_mar_apr, daily_activity_apr_may) dataset. As the number of user steps increase, the total distance increases, and the inverse shows a similar relationship.
+
+| Dataset: sleep_day                       | Coefficient | Strength    |
+|------------------------------------------|-------------|-------------|
+| total_time_in_bed / total_minutes_asleep | 0.930       | Very strong |
+
+![](images/clipboard-368825769.png){width="600"} Observations: 0.930 is a very strong correlation between users total minutes asleep and time in bed from the sleep_day_apr_may dataset. As the amount of time users spend in bed increases, the total minutes asleep increases, and the inverse shows a similar relationship.
+
+| Dataset: daily_activity + sleep_day        | Coefficient | Strength  |
+|--------------------------------------------|-------------|-----------|
+| calories / total_minutes_asleep            | -0.036      | Very weak |
+| total_distance / total_minutes_asleep      | -0.176      | Very weak |
+| sedentary_minutes / total_minutes_asleep   | -0.523      | Moderate  |
+| total_steps / total_minutes_asleep         | -0.190      | Very weak |
+| very_active_minutes / total_minutes_asleep | -0.097      | Very weak |
+
+![](images/clipboard-2475719259.png){width="600"} Observations: -0.523 is a moderate correlation between users total minutes asleep and sedentary minutes from the combined daily_activity (daily_activity_mar_apr, daily_activity_apr_may) and sleep_day_apr_may datasets. There may be some relationship where users have an increasing amount of minutes asleep from increasing their sedentary time, and the inverse may be similar.
+
+| Dataset: daily_activity + weight_log | Coefficient | Strength  |
+|--------------------------------------|-------------|-----------|
+| calories / weight_pounds             | 0.533       | Moderate  |
+| total_distance / weight_pounds       | 0.235       | Weak      |
+| sedentary_minutes / weight_pounds    | 0.468       | Moderate  |
+| total_steps / weight_pounds          | 0.120       | Very weak |
+| very_active_minutes / weight_pounds  | 0.280       | Weak      |
+
+![](images/clipboard-3914675538.png){width="600"} Observations: 0.533 is a moderate correlation between users weight in pounds and calories burned from the combined daily_activity (daily_activity_mar_apr, daily_activity_apr_may) and combined weight_log (weight_log_mar_apr, weight_log_apr_may) datasets. There may be some relationship where users have an increasing amount of calories burned if they are in a higher weight in pounds, and the inverse may be similar.
+
+| Dataset: daily_calories + daily_intensities + daily_steps | Coefficient | Strength |
+|----|----|----|
+| calories / sedentary_minutes | -0.107 | Very weak |
+| calories / total_steps | 0.591 | Moderate |
+| calories / very_active_minutes | 0.616 | Strong |
+| total_steps / sedentary_minutes | -0.327 | Weak |
+| total_steps / very_active_minutes | 0.667 | Strong |
+
+![](images/clipboard-3475224536.png){width="600"} Observations: 0.667 is a strong correlation between users total daily steps and very active minutes from the combined daily_cal_int_ste (daily_calories_apr_may, daily_intensities_apr_may, daily_steps_apr_may) datasets. As users spend more time in very active minutes, the number of total steps increases, and the inverse may be similar.
+
+| Dataset: hourly_calories + hourly_intensities + hourly_steps | Coefficient | Strength |
+|----|----|----|
+| calories / total_intensity | 0.897 | Very strong |
+| calories / total_steps | 0.808 | Very strong |
+| total_intensity / total_steps | 0.892 | Very strong |
+
+![](images/clipboard-3146528116.png){width="600"} Observations: 0.892 is a very strong correlation between users total calories burned and intensity from the combined hourly_cal_int_ste (hourly_calories_mar_apr, hourly_calories_apr_may, hourly_intensities_mar_apr hourly_intensities_apr_may, hourly_steps_mar_apr, hourly_steps_apr_may) datasets. As the number of user intensity minutes increases, the total calories burned increases, and the inverse shows a similar relationship.
+
+| Dataset: minute_calories + minute_intensities + minute_mets + minute_steps + heart_rate | Coefficient | Strength |
+|----|----|----|
+| calories / total_intensity | 0.894 | Very strong |
+| calories / mets | 0.954 | Very strong |
+| calories / total_steps | 0.824 | Very strong |
+| calories / heart_rate | 0.733 | Strong |
+| heart_rate / total_intensity | 0.704 | Strong |
+| heart_rate / mets | 0.768 | Strong |
+| heart_rate / total_steps | 0.62 | Strong |
+| total_intensity / mets | 0.940 | Very strong |
+| total_intensity / total_steps | 0.808 | Very strong |
+| mets / total_steps | 0.884 | Very strong |
+
+Observations: Minute datasets contain millions of data points. Creates a tool limitation where it is not as feasible to graph without appropriate technology in place. Most relationships from the minute datasets are strong to very strong correlations ranging from 0.62 to 0.954 which can potentially be reliable trends to further explore.
+
+**Correlation Interpretations:**
+
+Organizing correlation results into specific categories based on strength and date time measurement of data. (daily, hour, or minute).
+
+[**Weak to very weak correlation**]{.underline} (0.0 - 0.4) that need significantly more data to support claims.
+
+calories / sedentary_minutes (daily)
+
+total_steps / sedentary_minutes (daily)
+
+calories / total_minutes_asleep (daily)
+
+total_distance / total_minutes_asleep (daily)
+
+total_steps / total_minutes_asleep (daily)
+
+very_active_minutes / total_minutes_asleep (daily)
+
+total_distance / weight_pounds (daily)
+
+total_steps / weight_pounds (daily)
+
+very_active_minutes / weight_pounds (daily)
+
+calories/ sedentary_minutes (daily)
+
+total_steps / very_active minutes (daily)
+
+[**Moderate correlation**]{.underline} (0.4 - 0.6) could be potential trends to take advantage of.
+
+calories / total_steps (daily)
+
+calories / very_active_minutes (daily)
+
+sedentary minutes / total_minutes_asleep (daily)
+
+calories / weight_pounds (daily)
+
+sedentary minutes / weight pounds (daily)
+
+[**Strong correlation**]{.underline} (0.6 - 0.8) trends are a worthy recommendation.
+
+calories / total_distance (daily)
+
+total_steps / very_active_minutes (daily)
+
+calories / very_active_minutes (daily)
+
+calories / heart_rate (minute)
+
+heart_rate / total_intensity (minute)
+
+heart_rate / mets (minute)
+
+heart_rate / total_steps (minute)
+
+[**Very strong correlation**]{.underline} (0.8 - 1) are the most reliable trends to capture.
+
+total_steps / total_distance (daily)
+
+total_time_in_bed / total_minutes_asleep (daily)
+
+calories / total_intensity (hourly)
+
+calories / total_steps (hourly)
+
+total_intensity / total_steps (hourly)
+
+calories / total_intensity (minute)
+
+calories / mets (minute)
+
+calories / total_steps (minute)
+
+total_intensity / mets (minute)
+
+total_intensity / total_steps (minute)
+
+mets / total_steps ( minute)
+
+### Setting up my environment
+
+Setting up my R environment by loading 'tidyverse', 'here', 'skimr' and 'janitor' packages.
+
+```{r loading packages}
+install.packages("tidyverse")
+install.packages("here")
+install.packages("skimr")
+install.packages("janitor")
+library("tidyverse")
+library("here")
+library("skimr")
+library("janitor")
+```
+
+### Analysis of Data
+
+Analysis of cleaned datasets for trends and relationships.
+
+```{r reading cleaned dataset files}
+daily_activity_mar_apr <- read.csv("daily_activity_mar_apr_cleaned.csv")
+
+daily_activity_apr_may <- read.csv("daily_activity_apr_may_cleaned.csv")
+
+daily_calories_apr_may <- read.csv("daily_calories_apr_may_cleaned.csv")
+
+daily_intensities_apr_may <- read.csv("daily_intensities_apr_may_cleaned.csv")
+
+daily_steps_apr_may <- read.csv("daily_steps_apr_may_cleaned.csv")
+
+heart_rate_mar_apr <- read.csv("heart_rate_mar_apr_cleaned.csv")
+
+heart_rate_apr_may <- read.csv("heart_rate_apr_may_cleaned.csv")
+
+hourly_calories_mar_apr <- read.csv("hourly_calories_apr_may_cleaned.csv")
+
+hourly_calories_apr_may <- read.csv("hourly_calories_apr_may_cleaned.csv")
+
+hourly_intensities_mar_apr <- read.csv("hourly_intensities_mar_apr_cleaned.csv")
+
+hourly_intensities_apr_may <- read.csv("hourly_intensities_apr_may_cleaned.csv")
+
+hourly_steps_mar_apr <- read.csv("hourly_steps_mar_apr_cleaned.csv")
+
+hourly_steps_apr_may <- read.csv("hourly_steps_apr_may_cleaned.csv")
+
+minute_calories_mar_apr <- read.csv("minute_calories_mar_apr_cleaned.csv")
+
+minute_calories_apr_may <- read.csv("minute_calories_apr_may_cleaned.csv")
+
+minute_intensities_mar_apr <- read.csv("minute_intensities_mar_apr_cleaned.csv")
+
+minute_intensities_apr_may <- read.csv("minute_intensities_apr_may_cleaned.csv")
+
+minute_mets_mar_apr <- read.csv("minute_mets_mar_apr_cleaned.csv")
+
+minute_mets_apr_may <- read.csv("minute_mets_apr_may_cleaned.csv")
+
+minute_sleep_mar_apr <- read.csv("minute_sleep_mar_apr_cleaned.csv")
+
+minute_sleep_apr_may <- read.csv("minute_sleep_apr_may_cleaned.csv")
+
+minute_steps_mar_apr <- read.csv("minute_steps_mar_apr_cleaned.csv")
+
+minute_steps_apr_may <- read.csv("minute_steps_apr_may_cleaned.csv")
+
+sleep_day_apr_may <- read.csv("sleep_day_apr_may_cleaned.csv")
+
+weight_log_mar_apr <- read.csv("weight_log_mar_apr_cleaned.csv")
+
+weight_log_apr_may <- read.csv("weight_log_apr_may_cleaned.csv")
+```
+
+```{r binding datasets}
+daily_activity <- rbind(daily_activity_mar_apr, daily_activity_apr_may)
+
+heart_rate <- rbind(heart_rate_mar_apr, heart_rate_apr_may)
+
+hourly_calories <- rbind(hourly_calories_mar_apr, hourly_calories_apr_may)
+
+hourly_intensities <- rbind(hourly_intensities_mar_apr, hourly_intensities_apr_may)
+
+hourly_steps <- rbind(hourly_steps_mar_apr, hourly_steps_apr_may)
+
+minute_calories <- rbind(minute_calories_mar_apr, minute_calories_apr_may)
+
+minute_intensities <- rbind(minute_intensities_mar_apr, minute_intensities_apr_may)
+
+minute_mets <- rbind(minute_mets_mar_apr, minute_mets_apr_may)
+
+minute_sleep <- rbind(minute_sleep_mar_apr, minute_sleep_apr_may)
+
+minute_steps <- rbind(minute_steps_mar_apr, minute_steps_apr_may)
+
+weight_log <- rbind(weight_log_mar_apr, weight_log_apr_may)
+```
+
+```{r aggregation of overall data}
+daily_activity %>%
+  select(total_steps, total_distance, lightly_active_minutes, fairly_active_minutes, very_active_minutes, sedentary_minutes, calories) %>% 
+  summary()
+
+heart_rate %>% 
+  select(heart_rate, weekdays) %>% 
+  summary()
+
+sleep_day_apr_may %>% 
+  select(total_sleep_records, total_minutes_asleep, total_time_in_bed) %>% 
+  summary()
+
+weight_log %>% 
+  select(weight_kg, weight_pounds, bmi) %>% 
+  summary()
+
+daily_calories_apr_may %>% 
+  select(calories) %>% 
+  summary()
+
+colnames(daily_intensities_apr_may)[4] <- "total_intensity"
+daily_intensities_apr_may %>% 
+  select(total_intensity) %>% 
+  summary()  
+
+daily_steps_apr_may %>% 
+  select(total_steps) %>% 
+  summary()
+
+hourly_calories %>% 
+  select(calories) %>% 
+  summary()
+
+hourly_intensities %>% 
+  select(total_intensity) %>% 
+  summary()
+
+hourly_steps %>% 
+  select(total_steps) %>% 
+  summary()
+
+minute_calories %>% 
+  select(calories) %>% 
+  summary()
+
+colnames(minute_intensities)[4] <- "total_intensity"
+minute_intensities %>%
+  select(total_intensity) %>% 
+  summary()
+
+minute_mets %>% 
+  select(mets) %>%
+  summary()
+
+minute_sleep %>% 
+  select(sleep_m) %>% 
+  summary()
+
+minute_steps %>% 
+  select(total_steps) %>% 
+  summary()
+```
+
+```{r creating a pie chart of active and sedentary minutes from daily_activity}
+install.packages("plotrix")
+library("plotrix")
+
+sedentary_minutes <- sum(daily_activity$sedentary_minutes)
+
+lightly_active_minutes <- sum(daily_activity$lightly_active_minutes)
+
+fairly_active_minutes <- sum(daily_activity$fairly_active_minutes)
+
+very_active_minutes <- sum(daily_activity$very_active_minutes)
+
+daily_activity_minutes <- data.frame(
+  activity = c("sedentary", "lightly_active", "fairly_active", "very_active"),
+  activity_minutes = c(sedentary_minutes, lightly_active_minutes, fairly_active_minutes, very_active_minutes))
+
+daily_activity_minutes$percentage <- daily_activity_minutes$activity_minutes / sum(daily_activity_minutes$activity_minutes) * 100
+daily_activity_minutes$percentage <- round(daily_activity_minutes$percentage*1)
+
+pie3D(daily_activity_minutes$percentage,
+      labels = paste0(daily_activity_minutes$percentage,  "%"),
+      main = "Percentage of Active Minutes by Daily Activity",
+      col = c("skyblue", "lightgreen", "lightcoral", "lightyellow"),
+      border = "black",
+      labelcex = 0.9)
+legend("topright", daily_activity_minutes$activity, cex = 0.8,
+       fill = c("skyblue", "lightgreen", "lightcoral", "lightyellow"))
+```
+
+```{r adding weekdays column with date to weekday conversion}
+daily_activity$weekdays <- format(as.Date(daily_activity$activity_date, format = "%Y-%m-%d"), format = "%A")
+
+heart_rate$weekdays <- format(as.Date(heart_rate$activity_date, format = "%Y-%m-%d"), format = "%A")
+
+weight_log$weekdays <- format(as.Date(weight_log$activity_date, format = "%Y-%m-%d"), format = "%A")
+
+hourly_calories$weekdays <- format(as.Date(hourly_calories$activity_date, format = "%Y-%m-%d"), format = "%A")
+
+hourly_intensities$weekdays <- format(as.Date(hourly_intensities$activity_date, format = "%Y-%m-%d"), format = "%A")
+
+hourly_steps$weekdays <- format(as.Date(hourly_steps$activity_date, format = "%Y-%m-%d"), format = "%A")
+
+minute_calories$weekdays <- format(as.Date(minute_calories$activity_date, format = "%Y-%m-%d"), format = "%A")
+
+minute_intensities$weekdays <- format(as.Date(minute_intensities$activity_date, format = "%Y-%m-%d"), format = "%A")
+
+minute_mets$weekdays <- format(as.Date(minute_mets$activity_date, format = "%Y-%m-%d"), format = "%A")
+
+minute_sleep$weekdays <- format(as.Date(minute_sleep$activity_date, format = "%Y-%m-%d"), format = "%A")
+
+minute_steps$weekdays <- format(as.Date(minute_steps$activity_date, format = "%Y-%m-%d"), format = "%A")
+
+daily_activity_apr_may$weekdays <- format(as.Date(daily_activity_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+
+daily_calories_apr_may$weekdays <- format(as.Date(daily_calories_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+
+daily_intensities_apr_may$weekdays <- format(as.Date(daily_intensities_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+
+daily_steps_apr_may$weekdays <- format(as.Date(daily_steps_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+
+heart_rate_apr_may$weekdays <- format(as.Date(heart_rate_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+
+hourly_calories_apr_may$weekdays <- format(as.Date(hourly_calories_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+
+hourly_intensities_apr_may$weekdays <- format(as.Date(hourly_intensities_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+
+hourly_steps_apr_may$weekdays <- format(as.Date(hourly_steps_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+
+minute_calories_apr_may$weekdays <- format(as.Date(minute_calories_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+
+minute_intensities_apr_may$weekdays <- format(as.Date(minute_intensities_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+
+minute_mets_apr_may$weekdays <- format(as.Date(minute_mets_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+
+minute_sleep_apr_may$weekdays <- format(as.Date(minute_sleep_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+
+minute_steps_apr_may$weekdays <- format(as.Date(minute_steps_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+
+sleep_day_apr_may$weekdays <- format(as.Date(sleep_day_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+
+weight_log_apr_may$weekdays <- format(as.Date(weight_log_apr_may$activity_date, format = "%Y-%m-%d"), format = "%A")
+```
+
+```{r create bar charts of total user input counts by weekday}
+ggplot(data = daily_activity) +
+  geom_bar(fill = "darkred", mapping = aes(x = factor(weekdays, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")))) +
+  labs(title = "Total Daily Activity Days Tracked During The Week", x = "Week Day", y = "Total Days")
+
+ggplot(data = heart_rate) +
+  geom_bar(fill = "darkred", mapping = aes(x = factor(weekdays, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")))) +
+  labs(title = "Total Heart Rate Days Tracked During The Week", x = "Week Day", y = "Total Days")
+
+ggplot(data = sleep_day_apr_may) +
+  geom_bar(fill = "steelblue", mapping = aes(x = factor(weekdays, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")))) +
+  labs(title = "Total Sleep Days Tracked During The Week", x = "Week Day", y = "Total Days")
+
+ggplot(data = weight_log) +
+  geom_bar(fill = "darkred", mapping = aes(x = factor(weekdays, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")))) +
+  labs(title = "Total Weight Log Days Tracked During The Week", x = "Week Day", y = "Total Days")
+```
+
+```{r create bar charts of total user input sums by weekday}
+ggplot(data = daily_activity, aes(x = factor(weekdays, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")), y = total_steps)) +
+  geom_bar(stat = "identity", fill = "darkred") +
+  theme(plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Total Steps Daily During The Week", x = "Week Day", y = "Total Steps")
+
+ggplot(data = daily_activity, aes(x = factor(weekdays, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")), y = total_distance)) +
+  geom_bar(stat = "identity", fill = "darkred") +
+  theme(plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Total Distance Daily During The Week", x = "Week Day", y = "Total Distance")
+
+ggplot(data = daily_activity, aes(x = factor(weekdays, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")), y = sedentary_minutes)) +
+  geom_bar(stat = "identity", fill = "darkred") +
+  theme(plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Total Sedentary Minutes Daily During The Week", x = "Week Day", y = "Sedentary Minutes")
+
+ggplot(data = daily_activity, aes(x = factor(weekdays, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")), y = calories)) +
+  geom_bar(stat = "identity", fill = "darkred") +
+  theme(plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Total Calories Burned Daily During The Week", x = "Week Day", y = "Calories")
+
+ggplot(data = hourly_calories, aes(x = factor(weekdays, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")), y = calories)) +
+  geom_bar(stat = "identity", fill = "darkred") +
+  theme(plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Total Hourly Calories Burned Daily", x = "Week Day", y = "Calories Burned")
+
+ggplot(data = hourly_steps, aes(x = factor(weekdays, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")), y = total_steps)) +
+  geom_bar(stat = "identity", fill = "darkred") +
+  theme(plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Total Steps Hourly", x = "Week Day", y = "Total Steps")
+
+ggplot(data = hourly_intensities, aes(x = factor(weekdays, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")), y = total_intensity)) +
+  geom_bar(stat = "identity", fill = "darkred") +
+  theme(plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Total Intensity Hourly", x = "Week Day", y = "Total Intensity")
+```
+
+```{r create bar charts of total user input sums of hourly calories, hourly intensities, and hourly steps by the hour}
+ggplot(data = hourly_calories, aes(x = activity_time, y = calories, fill = activity_time)) +
+  geom_bar(stat = "identity") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Total Hourly Calories Burned By Hour", x = "Hour", y = "Calories Burned")
+
+ggplot(data = hourly_steps, aes(x = activity_time, y = total_steps, fill = activity_time)) +
+  geom_bar(stat = "identity") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Totals Hourly Steps By Hour", x = "Hour", y = "Total Steps")
+
+ggplot(data = hourly_intensities, aes(x = activity_time, y = total_intensity, fill = activity_time)) +
+  geom_bar(stat = "identity") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Totals Hourly Intensities By Hour", x = "Hour", y = "Total Intensity")
+
+```
+
+```{r merge datasets by id, actvity_date, and activity_time before regression analysis}
+daily_activity_sleep_merged <- merge(daily_activity, sleep_day_apr_may, by = c("id", "activity_date"))
+
+daily_activity_weight_merged <- merge(daily_activity, weight_log, by = c("id", "activity_date"))
+
+daily_cal_int_merged <- merge(daily_calories_apr_may, daily_intensities_apr_may, by = c("id", "activity_date"))
+
+daily_cal_int_ste_merged <- merge(daily_cal_int_merged, daily_steps_apr_may, by = c("id", "activity_date"))
+
+sleep_weight_merged <- merge(sleep_day_apr_may, weight_log, by = c("id", "activity_date"))
+
+hourly_calories_steps_merged <- merge(hourly_calories, hourly_steps, by = c("id", "activity_date", "activity_time"))
+
+hourly_calories_steps_intensities_merged <- merge(hourly_calories_steps_merged, hourly_intensities, by = c("id", "activity_date", "activity_time"))  
+
+minute_cal_int <- merge(minute_calories, minute_intensities, by = c("id", "activity_date", "activity_time"))
+
+minute_cal_int_met <- merge(minute_cal_int, minute_mets, by = c("id", "activity_date", "activity_time"))
+
+minute_cal_int_met_ste <- merge(minute_cal_int_met, minute_steps, by = c("id", "activity_date", "activity_time"))
+
+heart_rate_minute_merged <- merge(heart_rate, minute_cal_int_met_ste, by = c("id", "activity_date", "activity_time"))
+```
+
+```{r graphing scatterplots and best fit trends of variables}
+ggplot(data = daily_activity, aes(x = total_steps, y = total_distance)) +
+  geom_point() +
+  geom_smooth(method = "auto", col = "blue") +
+  theme(plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Daily Total Distance Based On Total Steps")
+
+ggplot(data = sleep_day_apr_may, aes(x = total_time_in_bed, y = total_minutes_asleep)) +
+  geom_point() +
+  geom_smooth(method = "auto", col = "blue") +
+  theme(plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Daily Total Minutes Asleep Based On Total Time In Bed")
+
+ggplot(data = daily_activity_sleep_merged, aes(x = sedentary_minutes, y = total_minutes_asleep)) +
+  geom_point() +
+  geom_smooth(method = "auto", col = "blue") +
+  theme(plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Daily Total Minutes Asleep Based On Total Sedentary Minutes")
+
+ggplot(data = daily_activity_weight_merged, aes(x = calories, y = weight_pounds)) +
+  geom_point() +
+  geom_smooth(method = "auto", col = "blue") +
+  theme(plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Daily Weight Based On Total Calories Burned")
+
+ggplot(data = daily_cal_int_ste_merged, aes(x = very_active_minutes, y = total_steps)) +
+  geom_point() +
+  geom_smooth(method = "auto", col = "blue") +
+  theme(plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Daily Total Steps Based On Total Very Active Minutes")
+
+ggplot(data = hourly_calories_steps_intensities_merged, aes(x = total_intensity, y = calories)) +
+  geom_point() +
+  geom_smooth(method = "auto", col = "blue") +
+  theme(plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Hourly Calories Burned Based On Total Intensity")
+
+ggplot(data = minute_cal_int_met_ste, aes(x = mets, y = calories)) +
+  geom_point() +
+  geom_smooth(method = "auto", col = "blue") +
+  theme(plot.title = element_text(size = 16, hjust = 0.5)) +
+  labs(title = "Minute Calories Burned Based On Metabolic Equivalent Minutes")
+```
+
+```{r regression analysis, correlations between variables}
+cor(daily_activity$calories, daily_activity$very_active_minutes)
+
+cor(daily_activity$calories, daily_activity$sedentary_minutes)
+
+cor(daily_activity$calories, daily_activity$total_distance)
+
+cor(daily_activity$total_steps, daily_activity$calories)
+
+cor(daily_activity$total_steps, daily_activity$total_distance)
+
+cor(daily_activity$total_steps, daily_activity$very_active_minutes)
+
+cor(daily_activity$total_steps, daily_activity$sedentary_minutes)
+
+cor(daily_activity_sleep_merged$total_steps, daily_activity_sleep_merged$total_minutes_asleep)
+
+cor(daily_activity_sleep_merged$total_distance, daily_activity_sleep_merged$total_minutes_asleep)
+
+cor(daily_activity_sleep_merged$sedentary_minutes, daily_activity_sleep_merged$total_minutes_asleep)
+
+cor(daily_activity_sleep_merged$calories, daily_activity_sleep_merged$total_minutes_asleep)
+
+cor(daily_activity_sleep_merged$very_active_minutes, daily_activity_sleep_merged$total_minutes_asleep)
+
+cor(daily_activity_weight_merged$total_steps, daily_activity_weight_merged$weight_pounds)
+
+cor(daily_activity_weight_merged$total_distance, daily_activity_weight_merged$weight_pounds)
+
+cor(daily_activity_weight_merged$sedentary_minutes, daily_activity_weight_merged$weight_pounds)
+
+cor(daily_activity_weight_merged$calories, daily_activity_weight_merged$weight_pounds)
+
+cor(daily_activity_weight_merged$very_active_minutes, daily_activity_weight_merged$weight_pounds)
+
+cor(sleep_day_apr_may$total_time_in_bed, sleep_day_apr_may$total_minutes_asleep)
+
+cor(sleep_weight_merged$total_minutes_asleep, sleep_weight_merged$weight_pounds)
+
+cor(sleep_weight_merged$total_time_in_bed, sleep_weight_merged$weight_pounds)
+
+cor(sleep_weight_merged$total_minutes_asleep, sleep_weight_merged$weight_pounds)
+
+cor(daily_cal_int_ste_merged$total_steps, daily_cal_int_ste_merged$calories)
+
+cor(daily_cal_int_ste_merged$total_steps, daily_cal_int_ste_merged$sedentary_minutes)
+
+cor(daily_cal_int_ste_merged$total_steps, daily_cal_int_ste_merged$very_active_minutes)
+
+cor(daily_cal_int_ste_merged$calories, daily_cal_int_ste_merged$sedentary_minutes)
+
+cor(daily_cal_int_ste_merged$calories, daily_cal_int_ste_merged$very_active_minutes)
+
+cor(hourly_calories_steps_intensities_merged$total_steps, hourly_calories_steps_intensities_merged$calories)
+
+cor(hourly_calories_steps_intensities_merged$total_steps, hourly_calories_steps_intensities_merged$total_intensity)
+
+cor(hourly_calories_steps_intensities_merged$calories, hourly_calories_steps_intensities_merged$total_intensity)
+
+cor(minute_cal_int_met_ste$total_steps, minute_cal_int_met_ste$calories)
+
+cor(minute_cal_int_met_ste$total_steps, minute_cal_int_met_ste$intensity)
+
+cor(minute_cal_int_met_ste$total_steps, minute_cal_int_met_ste$mets)
+
+cor(minute_cal_int_met_ste$intensity, minute_cal_int_met_ste$calories)
+
+cor(minute_cal_int_met_ste$intensity, minute_cal_int_met_ste$mets)
+
+cor(minute_cal_int_met_ste$mets, minute_cal_int_met_ste$calories)
+
+cor(heart_rate_minute_merged$heart_rate, heart_rate_minute_merged$calories)
+
+cor(heart_rate_minute_merged$heart_rate, heart_rate_minute_merged$intensity)
+
+cor(heart_rate_minute_merged$heart_rate, heart_rate_minute_merged$mets)
+
+cor(heart_rate_minute_merged$heart_rate, heart_rate_minute_merged$total_steps)
+
+```
+
+## 5. Share:
+
+**Dashboard:**
+
+![](bellabeat_case_study_2025_01_27/bellabeat_dashboard.png)
+
+## 6. Act:
+
+**What are some trends in smart device usage? How could these trends apply to Bellabeat customers?**
+
+Smart devices show a significant emphasis on tracking metrics based on number of observations that involve being active including heart rate, steps, distance, calories burned, energy expenditure (METs), and intensity. Less emphasis on non-active metrics like sleep and weight tracking.
+
+Under CDC daily recommendations, FitBit users on average successfully met the target daily goals for calories burned (2000-3000 men, 1600-2400 women calories) and active minutes (\>=30 minutes). However, users on average fell short of meeting the total steps (8000-10000 steps), heart rate (\>=100 value), sleep (\>=7 hours) and weight criteria (\<18.5 under, 18.5-24.9 normal, \> 25 overweight bmi).
+
+Users spend 18% of their daily time active and 82% sedentary. Approximately 1/5 active, and 4/5 sedentary.
+
+Users on average are overweight with a BMI of 25.37, which may not represent the sample size as that is 0.37 bmi off of being normal under CDC recommendations.
+
+Users spend on a daily average 7 ½ hours in bed, 6.98 hours sleeping which barely meets the minimum by CDC of at least 7 hours. Users on a minute average spend more time in sleep stage 1, lighter sleep. According to the CDC, more time should be focused in stage 3 where deep sleep and non-rapid eye movement occurs.
+
+Users show the greatest overall input for active metrics on Tuesdays. For passive metrics like sleep and weight, Wednesdays shows the most input.
+
+Users show the greatest total hourly input in active metrics like calories burned, intensity, and steps between the hours of 12-2PM and 5-7PM.
+
+If we look at specific trends on a daily, hourly, and minute input basis to understand a user's daily activity, sleep and stress, then looking at variables that have correlation coefficients with a very strong relationship would be most recommended. Tracking these specific fields on smart devices would be to the immediate benefit of Bellabeat users and can be reliably explored further.
+
+[**Very strong correlation**]{.underline} (0.8 - 1.0)
+
+total_steps / total_distance (daily) – 0.986
+
+total_time_in_bed / total_minutes_asleep (daily) – 0.930
+
+calories / total_intensity (hourly) – 0.897
+
+calories / total_steps (hourly) – 0.808
+
+total_intensity / total_steps (hourly) – 0.892
+
+calories / total_intensity (minute) – 0.894
+
+calories / mets (minute) – 0.954
+
+calories / total_steps (minute) – 0.824
+
+total_intensity / mets (minute) – 0.940
+
+total_intensity / total_steps (minute) – 0.808
+
+mets / total_steps (minute) – 0.884
+
+**How could these trends help influence Bellabeat marketing strategy?**
+
+Campaign with a health organization like the CDC for educating users on what daily metrics can contribute to a healthy, active lifestyle and encourage them to set goals on the Bellabeat app.
+
+Smart device active metrics are passively tracked on a frequent basis. Non-active metrics like sleep and weight could have a notification on a user's device or an incentive on the Bellabeat app for users to manually input data more frequently.
+
+Target middle of the week (Tuesday/Wednesday) and the hours between 12-2pm, 5-7pm for user notifications and incentives on the Bellabeat app.
+
+Users should be able to see a more complete daily end of the day total that is a passive sum of hourly or minute metrics. Daily active metrics on the Bellabeat app need to be tracked more consistently on top of existing hourly and minute metrics to establish a better understanding of the relationship between daily active metrics and daily passive metrics such as sleep and weight.
