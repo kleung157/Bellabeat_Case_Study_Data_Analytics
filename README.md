@@ -1,21 +1,32 @@
+#
 # Bellabeat Case Study: 
 ## How Can A Wellness Technology Company Play it Smart?
 
 ![bellabeat logo](./bellabeat_logo.png)
 
-##### Author: Kevin Leung
-##### Date: 2025-01-27
-##### [Full Document](https://github.com/kleung157/Bellabeat_Case_Study_Google_Data_Analytics/blob/ba4e810b2ea8f7d907c0e844fd44f2d4f9583cc6/bellabeat_case_study_deliverables.Rmd)
+**Author:** Kevin Leung
 
-##### Data Analysis Contents:
-##### 1. Ask
-##### 2. [Prepare](https://github.com/kleung157/Bellabeat_Case_Study_Google_Data_Analytics/blob/a4badf3cdaa88cf38fea809e00263c21accd68fa/bellabeat_data_preparation_2025_01_27.Rmd)
-##### 3. [Process](https://github.com/kleung157/Bellabeat_Case_Study_Google_Data_Analytics/blob/a4badf3cdaa88cf38fea809e00263c21accd68fa/bellabeat_data_clean_process_2025_01_27.Rmd)
-##### 4. [Analysis](https://github.com/kleung157/Bellabeat_Case_Study_Google_Data_Analytics/blob/a4badf3cdaa88cf38fea809e00263c21accd68fa/bellabeat_data_analyze_2025_01_27.Rmd)
-##### 5. [Share](https://public.tableau.com/views/bellabeat_dashboard_17398865619940/BellabeatCaseStudy?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
-##### 6. Act
+**Date:** 2025-01-27
 
+#
 
+[**Full Document**](https://github.com/kleung157/Bellabeat_Case_Study_Google_Data_Analytics/blob/ba4e810b2ea8f7d907c0e844fd44f2d4f9583cc6/bellabeat_case_study_deliverables.Rmd)
+
+#
+
+**Data Analysis Contents:**
+
+1. Ask
+
+2. [Prepare](https://github.com/kleung157/Bellabeat_Case_Study_Google_Data_Analytics/blob/a4badf3cdaa88cf38fea809e00263c21accd68fa/bellabeat_data_preparation_2025_01_27.Rmd)
+
+3. [Process](https://github.com/kleung157/Bellabeat_Case_Study_Google_Data_Analytics/blob/a4badf3cdaa88cf38fea809e00263c21accd68fa/bellabeat_data_clean_process_2025_01_27.Rmd)
+
+4. [Analysis](https://github.com/kleung157/Bellabeat_Case_Study_Google_Data_Analytics/blob/a4badf3cdaa88cf38fea809e00263c21accd68fa/bellabeat_data_analyze_2025_01_27.Rmd)
+
+5. [Share](https://public.tableau.com/views/bellabeat_dashboard_17398865619940/BellabeatCaseStudy?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
+
+6. Act
 
 #
 
@@ -94,7 +105,7 @@ Bellabeat marketing analytics team – data analysts, marketers, and strategists
 
 (See document for details.)
 
-**General Aggregation:**
+**General Trends:**
 
 Daily total steps – 7281 steps
 
