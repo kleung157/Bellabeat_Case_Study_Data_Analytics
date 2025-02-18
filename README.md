@@ -369,7 +369,8 @@ d. **Very strong correlation** (0.8 - 1) are the most reliable trends to capture
 ## 5. Share
 #### Dashboard:
 [https://public.tableau.com/views/bellabeat_dashboard_17398865619940/BellabeatCaseStudy?:language=en-US&publish=yes&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link](https://public.tableau.com/views/bellabeat_dashboard_17398865619940/BellabeatCaseStudy?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
-![bellabeat_dashboard]
+
+![bellabeat_dashboard](https://github.com/kleung157/Bellabeat_Case_Study_Google_Data_Analytics/blob/d2cdeac00ae5b10e79e8463e6d600c4926ad8d1f/bellabeat_dashboard_1.png)
 
 # 
 
