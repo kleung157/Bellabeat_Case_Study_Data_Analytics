@@ -24,7 +24,7 @@
 
 4. [Analysis](https://github.com/kleung157/Bellabeat_Case_Study_Google_Data_Analytics/blob/a4badf3cdaa88cf38fea809e00263c21accd68fa/bellabeat_data_analyze_2025_01_27.Rmd)
 
-5. [Share](https://public.tableau.com/views/bellabeat_dashboard_17398865619940/BellabeatCaseStudy?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
+5. [Share](https://public.tableau.com/views/bellabeat_dashboard_17398865619940/Home?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
 
 6. Act
 
