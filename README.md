@@ -2,7 +2,7 @@
 # Bellabeat Case Study: 
 ## How Can A Wellness Technology Company Play it Smart?
 
-![bellabeat logo](./bellabeat_logo.png)
+![bellabeat logo](./images/bellabeat_logo.png)
 
 
 **Author:** Kevin Leung
@@ -11,11 +11,11 @@
 
 #
 
-[**Full Deliverables Document**](https://github.com/kleung157/Bellabeat_Case_Study_Google_Data_Analytics/blob/ba4e810b2ea8f7d907c0e844fd44f2d4f9583cc6/bellabeat_case_study_deliverables.Rmd)
+[**Full Deliverables Document**](https://github.com/kleung157/Bellabeat_Case_Study_Data_Analytics/blob/24a4d4927fdb9280081cb403e43eb8fcdd569b84/documents/bellabeat_case_study_deliverables_final.ipynb)
 
 [**Dashboard**](https://public.tableau.com/views/bellabeat_dashboard_17398865619940/Home?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
 
-[**Presentation**](https://github.com/kleung157/Bellabeat_Case_Study_Google_Data_Analytics/raw/refs/heads/main/bellabeat_presentation.pptx)
+[**Presentation**](https://github.com/kleung157/Bellabeat_Case_Study_Data_Analytics/blob/24a4d4927fdb9280081cb403e43eb8fcdd569b84/documents/bellabeat_presentation.pptx)
 
 #
 
@@ -23,11 +23,11 @@
 
 1. Ask
 
-2. [Prepare](https://github.com/kleung157/Bellabeat_Case_Study_Google_Data_Analytics/blob/a4badf3cdaa88cf38fea809e00263c21accd68fa/bellabeat_data_preparation_2025_01_27.Rmd)
+2. [Prepare](https://github.com/kleung157/Bellabeat_Case_Study_Data_Analytics/blob/24a4d4927fdb9280081cb403e43eb8fcdd569b84/documents/bellabeat_data_preparation_2025_01_27.Rmd)
 
-3. [Process](https://github.com/kleung157/Bellabeat_Case_Study_Google_Data_Analytics/blob/a4badf3cdaa88cf38fea809e00263c21accd68fa/bellabeat_data_clean_process_2025_01_27.Rmd)
+3. [Process](https://github.com/kleung157/Bellabeat_Case_Study_Data_Analytics/blob/24a4d4927fdb9280081cb403e43eb8fcdd569b84/documents/bellabeat_data_clean_process_2025_01_27.Rmd)
 
-4. [Analysis](https://github.com/kleung157/Bellabeat_Case_Study_Google_Data_Analytics/blob/a4badf3cdaa88cf38fea809e00263c21accd68fa/bellabeat_data_analyze_2025_01_27.Rmd)
+4. [Analysis](https://github.com/kleung157/Bellabeat_Case_Study_Data_Analytics/blob/24a4d4927fdb9280081cb403e43eb8fcdd569b84/documents/bellabeat_data_analyze_2025_01_27.Rmd)
 
 5. [Share](https://public.tableau.com/views/bellabeat_dashboard_17398865619940/Home?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
 
@@ -72,7 +72,7 @@ Bellabeat marketing analytics team – data analysts, marketers, and strategists
 #
 
 ## 2. Prepare
-[Document](https://github.com/kleung157/Bellabeat_Case_Study_Google_Data_Analytics/blob/a4badf3cdaa88cf38fea809e00263c21accd68fa/bellabeat_data_preparation_2025_01_27.Rmd)
+[Document](https://github.com/kleung157/Bellabeat_Case_Study_Data_Analytics/blob/24a4d4927fdb9280081cb403e43eb8fcdd569b84/documents/bellabeat_data_preparation_2025_01_27.Rmd)
 
 (See document for details.)
 
@@ -123,14 +123,14 @@ Made a copy of the original data set and renamed 29 comma separated value (.csv)
 #
 
 ## 3. Process 
-[Document](https://github.com/kleung157/Bellabeat_Case_Study_Google_Data_Analytics/blob/a4badf3cdaa88cf38fea809e00263c21accd68fa/bellabeat_data_clean_process_2025_01_27.Rmd) 
+[Document](https://github.com/kleung157/Bellabeat_Case_Study_Data_Analytics/blob/24a4d4927fdb9280081cb403e43eb8fcdd569b84/documents/bellabeat_data_clean_process_2025_01_27.Rmd) 
 
 (See document for details.)
 
 #
 
 ## 4. Analyze
-[Document](https://github.com/kleung157/Bellabeat_Case_Study_Google_Data_Analytics/blob/a4badf3cdaa88cf38fea809e00263c21accd68fa/bellabeat_data_analyze_2025_01_27.Rmd)
+[Document](https://github.com/kleung157/Bellabeat_Case_Study_Data_Analytics/blob/24a4d4927fdb9280081cb403e43eb8fcdd569b84/documents/bellabeat_data_analyze_2025_01_27.Rmd)
 
 (See document for details.)
 
@@ -375,10 +375,10 @@ d. **Very strong correlation** (0.8 - 1) are the most reliable trends to capture
 #### Dashboard:
 https://public.tableau.com/views/bellabeat_dashboard_17398865619940/Home?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link
 
-![bellabeat_dashboard](https://github.com/kleung157/Bellabeat_Case_Study_Google_Data_Analytics/blob/8799004f64efc7c09a33d00d890ff76fb09af219/bellabeat_dashboard_2.png)
+![bellabeat_dashboard](https://github.com/kleung157/Bellabeat_Case_Study_Data_Analytics/blob/24a4d4927fdb9280081cb403e43eb8fcdd569b84/images/bellabeat_dashboard_2.png)
 
 #### Presentation:
-![bellabeat_presentation](https://github.com/kleung157/Bellabeat_Case_Study_Google_Data_Analytics/raw/refs/heads/main/bellabeat_presentation.pptx)
+![bellabeat_presentation](https://github.com/kleung157/Bellabeat_Case_Study_Data_Analytics/blob/24a4d4927fdb9280081cb403e43eb8fcdd569b84/documents/bellabeat_presentation.pptx)
 
 # 
 
